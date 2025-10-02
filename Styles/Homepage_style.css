@@ -2,12 +2,14 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     
 }
-
+:root{
+    --primary-bg-color:rgb(192, 221, 246);
+    --primary-button-color:rgb(132, 190, 242);
+    --primary-border-color:rgb(41, 145, 236);
+}
 .page-wrapper{
     display: flex;
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
+    margin: 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -17,6 +19,9 @@
     
     
     
+}
+.flex-item{
+    background-color: var(--primary-bg-color);
 }
 .titleintro{
     
@@ -96,23 +101,20 @@ text-decoration: aqua;
     display:flex;
     text-align: center;
     flex-wrap: wrap;
-    background-color: rgb(192, 221, 246);
+    background-color: var(--primary-bg-color);
     
     justify-content: space-between;
     
     /* border: 5px solid red; */
-    
-    
-    
 }
 
 .service{
     flex:1 1 150px;
     padding:20px;
     margin:20px;
-    box-shadow:2px 2px rgb(212, 133, 104);
+    box-shadow:2px 2px var(--primary-border-color);
     
-    border: 3px solid rgb(189, 82, 43);
+    border: 3px var(--primary-border-color);
     border-radius: 25px;
 }
 /* sub-flexbox 2 */
@@ -121,7 +123,7 @@ text-decoration: aqua;
     flex-wrap: wrap;
     text-align: center;
     justify-content:stretch;
-    background-color: rgb(192, 221, 246);
+    background-color:  var(--primary-bg-color);
     /* border: 10px solid red; */
     
 }
