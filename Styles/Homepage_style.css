@@ -6,6 +6,12 @@
     --primary-bg-color:rgb(192, 221, 246);
     --primary-button-color:rgb(132, 190, 242);
     --primary-border-color:rgb(41, 145, 236);
+    --alt-color:rgb(26, 62, 94);
+}
+body{
+    background-color: var(--primary-bg-color);
+    
+    margin: 0;
 }
 .page-wrapper{
     display: flex;
@@ -21,7 +27,7 @@
     
 }
 .flex-item{
-    background-color: var(--primary-bg-color);
+    /* background-color: var(--primary-bg-color); */
 }
 .titleintro{
     
@@ -47,11 +53,9 @@
     font-size: 25px;
     margin: 20px 50px;
 }
-
-
 #bg-video{
     position:absolute;
-    flex: 10;
+    flex: 1 ;
     right: 0;
     bottom:0;
     z-index: -1;
@@ -94,33 +98,35 @@ text-decoration: aqua;
 }
 
 .subheading{
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
+    flex: 1 1 100%;
 }
 /* sub-flexbox 1 */
 .services{
     display:flex;
     text-align: center;
     flex-wrap: wrap;
-    background-color: var(--primary-bg-color);
+    /* background-color: var(--primary-bg-color); */
     
     justify-content: space-between;
+    
     
     /* border: 5px solid red; */
 }
 
 .service{
-    flex:1 1 150px;
+    flex:1 1 350px;
     padding:20px;
     margin:20px;
     box-shadow:2px 2px var(--primary-border-color);
-    
+    background-color: white;
     border: 3px var(--primary-border-color);
     border-radius: 25px;
 }
 /* sub-flexbox 2 */
 .category{
-    display:flex;
-    flex-wrap: wrap;
+    /* display:flex;
+    flex-wrap: wrap; */
     text-align: center;
     justify-content:stretch;
     background-color:  var(--primary-bg-color);
@@ -128,19 +134,25 @@ text-decoration: aqua;
     
 }
 .categoryheading{
-    flex:1 1 33.3%;
+    flex:1 1 300px;
     margin:10px;
     padding:10px;
     text-align: center;
     align-items: center;
-    border: 10px solid goldenrod ;
+    background-color: white;
+    box-shadow:2px 2px var(--primary-border-color);
+    border: 3px var(--primary-border-color);
+    border-radius: 25px;
+    /* border: 10px solid goldenrod ; */
     
     
 
 }
+
 footer{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     background-color: rgb(26, 62, 94);
+    height:30vh;
 }
