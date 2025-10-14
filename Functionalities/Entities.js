@@ -12,3 +12,5 @@ const user = new User("bello_zk","zikhrullahbello2011@gmail.com","0000");
 const learner = new Learner("bello dynasty");
 
 console.log("Email address:"+ learner.Fullname);
+
+localStorage

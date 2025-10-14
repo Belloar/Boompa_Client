@@ -26,9 +26,9 @@ body{
     
     
 }
-.flex-item{
-    /* background-color: var(--primary-bg-color); */
-}
+/* .flex-item{
+    background-color: var(--primary-bg-color);
+} */
 .titleintro{
     
     min-height: 100vh;

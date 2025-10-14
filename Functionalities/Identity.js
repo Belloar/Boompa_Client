@@ -8,8 +8,8 @@
         this.Email= email
     }
     const newUser = new User();
- function Login(searchString,password){
-     fetch(`https://localhost:44325/api/Identity/UserLogin/`,
+ async function Login(searchString,password){
+    let response = await fetch(`https://localhost:44325/api/Identity/UserLogin/`,
             {
                 method:'GET',
                 headers:{
@@ -18,45 +18,53 @@
                     "password":`${password}`
                 }
             
-            }).then((response) => response.json())
-            .then(body => console.log(body))
-            .catch(error => console.log(error))
+            })
+    const result = await response.json();
+    return result.data;
+
 }
 
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJCZWxsb19hciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InJhaG1hbmJlbGxvMjAxOEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiVXNlciIsIkFkbWluIl0sImV4cCI6MTc2MDExNjAzNSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDc1IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDc1In0.P_U9bSrNizkLqaZBEkX6mQ7n1Pn-KFXvx_PxEWHoyQI"
 
 
-function DummyFunc(){
-    fetch("https://localhost:44325/api/Identity/JwtTest",{
+async function DummyFunc(){
+    const token = await Login("bello_ar","0000");
+    
+    let response = await fetch("https://localhost:44325/api/Identity/JwtTest",{
         method:"GET",
         headers:{
             "Content-Type":"application/json",
             "Authorization": `Bearer ${token}`
         }
         
-    })
-    .then((body) => body.json())
-    .then(body => console.log(body))
-    .catch((error) => console.log(error));
+    });
+
+    console.log(await response.text()) ;
 }
 
+document.getElementById("register-button").addEventListener("submit",Register)
+async function Register(){
+    const form = document.getElementById("registration-form")
+    
+    let formData = new FormData(form);
+    
+    
+    let response = await fetch("https://localhost:44325/api/Learner/CreateLearner",{
+        method: "POST",
 
- //Login("bello_ar","0000");
- DummyFunc();
+        body:`${formData}`
 
- //console.log(newUser.Email);
+    })
+    if(!response.ok){
+        return Error("A problem occured during registration")
+    }
+    console.log("registration successful")
+    return alert("success")
+    
+    
+}
+Register();
 
 
-
-
-
-
-// function Register(){
-//     fetch("https://localhost:44325/api/Learner/TestMethod")
-//     .then((response) => response.json())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.log(error))
-// }
 //TestMethod()
 
 
