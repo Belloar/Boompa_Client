@@ -1,14 +1,23 @@
 
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    //process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     // Then proceed with your fetch request
 
 
-    function User(username,email){
-        this.UserName = username,
-        this.Email= email
+    
+
+
+ async function Login(event){
+    event.preventDefault();
+    const form = document.getElementById("login-form");
+    if(!form){
+        alert("form not received")
+        window.location.reload();
     }
-    const newUser = new User();
- async function Login(searchString,password){
+    const formData = new FormData(form);
+
+    let searchString = formData.get("username");
+    let password = formData.get("password");
+
     let response = await fetch(`https://localhost:44325/api/Identity/UserLogin/`,
             {
                 method:'GET',
@@ -19,12 +28,22 @@
                 }
             
             })
-    const result = await response.json();
-    return result.data;
+            if(response.ok){
+                const result = await response.json();
+                sessionStorage.setItem("token",result.data);
+                window.open("Boompa_Dashboard.html","_blank")
+            }
+            else{
+                alert("Error:"+response.status)
+                
+            }
+    
 
 }
 
-
+function Redirect(page){
+    window.location.replace(page)
+}
 
 async function DummyFunc(){
     const token = await Login("bello_ar","0000");
@@ -41,28 +60,36 @@ async function DummyFunc(){
     console.log(await response.text()) ;
 }
 
-document.getElementById("register-button").addEventListener("submit",Register)
-async function Register(){
-    const form = document.getElementById("registration-form")
+
+async function Register(event){
+    event.preventDefault();
+    const form = document.getElementById("registration-form");
+    const formData = new FormData(form);
     
-    let formData = new FormData(form);
-    
-    
+
     let response = await fetch("https://localhost:44325/api/Learner/CreateLearner",{
         method: "POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
 
-        body:`${formData}`
+        body: JSON.stringify({
+            "userName":`${formData.get("username")}`,
+            "password":`${formData.get("password")}`,
+            "email":`${formData.get("email")}`,
+            "age":`${formData.get("age")}`,
+            "phoneNumber":`${formData.get("phone-number")}`
+        }
 
-    })
-    if(!response.ok){
-        return Error("A problem occured during registration")
-    }
-    console.log("registration successful")
-    return alert("success")
-    
+    )})
+
+        if(response.ok){
+            alert(await response.text())
+            window.location.replace("Boompa_Signin.html")
+        }
     
 }
-Register();
+
 
 
 //TestMethod()
