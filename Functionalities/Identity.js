@@ -32,10 +32,11 @@
                 const result = await response.json();
                 sessionStorage.setItem("token",result.data);
                 window.open("Boompa_Dashboard.html","_blank")
+                window.close()
+                
             }
             else{
                 alert("Error:"+response.status)
-                
             }
     
 
@@ -44,23 +45,6 @@
 function Redirect(page){
     window.location.replace(page)
 }
-
-async function DummyFunc(){
-    const token = await Login("bello_ar","0000");
-    
-    let response = await fetch("https://localhost:44325/api/Identity/JwtTest",{
-        method:"GET",
-        headers:{
-            "Content-Type":"application/json",
-            "Authorization": `Bearer ${token}`
-        }
-        
-    });
-
-    console.log(await response.text()) ;
-}
-
-
 async function Register(event){
     event.preventDefault();
     const form = document.getElementById("registration-form");
