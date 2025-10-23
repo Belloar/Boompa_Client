@@ -1,5 +1,29 @@
-document.addEventListener(onload,GetMaterials(sessionStorage.getItem("category")))
-document.getElementsByClassName("flex-item").addEventListener("click",GetSourceMaterial)
+document.addEventListener(onload,Main())
+
+
+
+
+function Main(){
+    // let container = document.getElementById("container")
+    // container.addEventListener("click", event => {
+    //     if(event.target.tagname === "h2"){
+    //         let h2 = container.querySelector("h2")
+    //         let sourceName = h2.textContent
+    //         Redirect(`${sessionStorage.getItem("category")},${sourceName}`)
+    //     }
+    // })
+    GetMaterials(sessionStorage.getItem("category"))
+
+    // const materials = document.getElementsByClassName("flex-item")
+    // materials.foreach(material => material.addEventListener("click",mat =>{
+    //     let sourceName = mat
+    // })
+
+    // )
+}
+
+
+
 
 async function GetMaterials(categoryName){
     try{
@@ -15,48 +39,37 @@ async function GetMaterials(categoryName){
     }
     catch(err){
         alert("error:"+err)
+        console.log(err)
         
         
     }
+    //sessionStorage.removeItem("category")
 }
 
 
 function DisplayArticles(payload){
     payload.result.forEach(sourceMaterial => {
         let a = document.createElement("a");
+        a.id= sourceMaterial.sourceName
         let heading = document.createElement("h2");
         let p = document.createElement("p")
         
         heading.textContent=sourceMaterial.sourceName
         p.textContent=sourceMaterial.sourceDescription
-        div.classList.add("flex-item")
+        a.classList.add("flex-item")
 
-        div.appendChild(heading)
-        div.appendChild(p)
-        document.getElementById("container").appendChild(div)
-        
+        a.appendChild(heading)
+        a.appendChild(p)
+        document.getElementById("container").appendChild(a)
+        a.addEventListener("click",() => Redirect(`${sessionStorage.getItem("category")}`,sourceMaterial.sourceName))
     });
 }
 
-async function GetSourceMaterial(categoryName,sourceName){
- 
-   try{
-     const response = await fetch("https://localhost:44325/api/SourceMaterial/GetSourceMaterial/",{
-        headers:{
-            "categoryName": `${categoryName}`,
-            "sourceName":`${sourceName}`
-        }
-    })
-
-    const result = response.json();
-
-    
-
-   }catch(err){
-
-        alert("error"+err)
-   }
 
 
 
+function Redirect(categoryName,sourceName){
+    localStorage.setItem("categoryName",categoryName)
+    localStorage.setItem("sourceName",sourceName)
+    window.location.replace("/pages/Article_Consumption.html")
 }

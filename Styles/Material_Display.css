@@ -21,7 +21,7 @@ body{
 #container{
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     width: 80%;
     height: 100vh;
     /* border:10px solid red; */
@@ -32,8 +32,11 @@ body{
     border:2px solid var(--primary-border-color);
     border-radius: 8px;
     margin:10px;
+    text-decoration: none;
+    color:black
 
 }
+
 #base-nav{
     display: flex;
     justify-content: end;
