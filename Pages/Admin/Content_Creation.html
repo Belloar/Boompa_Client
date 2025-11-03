@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Styles/Content_Creation.css">
+    <script src="/Functionalities/Admin/Content_Creation.js"></script>
+    <title>Content_Creation</title>
+    <!-- <nav id="base-nav">
+        <a href="">Dashboard</a>
+        <a href="">User Management window</a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+    </nav> -->
+</head>
+<body>
+    <div id="container">
+        <h1>Create Content</h1>
+        <form id="material-collection">
+
+            <label for="SourceMaterialName">Material Name</label>
+            <input class = "text-field"type="text" name="SourceMaterialName"id="SourceMaterialName"required >
+            
+            <label for="Category">Category</label>
+            <input class = "text-field"type="text" name="Category"id="Category" required >
+
+            <label for="Description">Description</label>
+            <input class = "text-field"type="text" name = "Description"id="Description" required ><br>
+
+            <label for="Text">Content</label>
+            <textarea class = "text-field" name="Text" id="Text" placeholder="Your Article goes here"></textarea><br>
+
+            <input type="file" name="RawFiles" multiple ><br>
+                
+            <input type="submit" value="Submit">
+            
+        </form>
+    </div>
+</body>
+</html>

@@ -3,9 +3,9 @@ document.addEventListener("onload",Main())
 
 
 function Main(){
-//alert(localStorage.getItem("categoryName"))
-//console.log(localStorage.getItem("categoryName"))
+
 GetSourceMaterial(localStorage.getItem("categoryName"),localStorage.getItem("sourceName"))
+
 }
 
 async function GetSourceMaterial(categoryName,sourceName){
@@ -37,6 +37,11 @@ function RenderContent(payload){
                 const reader = new Fil
                 
                 break;
+            case "video":
+                break;
+            case "url":
+                break;
+
         
             default:
                 break;
@@ -53,7 +58,7 @@ function RenderContent(payload){
 
     }
     
-    payload.data.Questions.array.forEach(question => {
+    payload.data.Questions.forEach(question => {
         const evaluationForm = document.getElementById("evaluationForm")
 
         let description = document.createElement("label")
@@ -87,4 +92,9 @@ function RefineOptions(options){
 
         } )
         return options
+}
+
+function ComputeRewards(form){
+   const formData = new FormData(form)
+   formData.get()
 }
