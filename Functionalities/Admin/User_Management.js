@@ -1,3 +1,4 @@
+
 function Main(){
  
 }
@@ -33,6 +34,7 @@ async function GetAllUsers(){
     const response = await fetch("https://localhost:44325/api/Identity/GetUsers")
 
     let result = await response.json()
+    DisplayUsers(result)
     console.log(result)
     }
     catch(err){
@@ -41,20 +43,34 @@ async function GetAllUsers(){
     }
 }
 function DisplayUsers(payload){
-    const table = document.getElementById("display-table")
-    let tr = document.createElement("tr")
-    payload.data.foreach(user => {
+    const nonDisplayable = ["id","hashsalt","password"]
+    const container = document.getElementById("container")
+    const table = document.createElement("table")
+    table.id = "display-table"
+    let head = document.createElement("thead")
+    let body = document.createElement("tbody")
+
+    const keys = Object.keys(payload.data[0])
+    keys.forEach(key => {
+        let th = document.createElement("th")
+        th.textContent = key
+        head.appendChild(th)
+    })
+
+    const users = payload.data
+    users.forEach(user => {
+        let tr = document.createElement("tr")
         for(let field in user){
             var td = document.createElement("td")
             td.textContent = user[field]
-            tr.append(td)
+            tr.appendChild(td)
+            
         }
-        table.appendChild(tr)
-        
-    })
-    
+        body.appendChild(tr)
+    });
 
-
+    table.append(head)
+    table.appendChild(body)
 
     container.appendChild(table)
     

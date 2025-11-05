@@ -22,8 +22,9 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     background-color: var(--primary-item-color);
-    width: 80%;
+    width: 100%;
     min-height: 100vh;
+    overflow-x: auto;
 
 
 }
@@ -36,4 +37,23 @@ body{
     color: black;
     font-size: 20px;
     background-color: var(--primary-bg-color);
+}
+table{
+    flex: 1;
+    margin: 15px;
+    max-width: 1000px;
+    border-collapse: collapse;
+}
+table,th,td{
+    border:1px solid var(--alt-color);
+    padding:20px;
+}
+thead{
+    background-color: var(--alt-color);
+    color: white;
+}
+
+tr:hover{
+    background-color: var(--primary-border-color);
+    color: white;
 }

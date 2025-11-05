@@ -47,6 +47,8 @@ input{
     height: 10vh;
     background-color: rgba(116, 122, 142, 0.856);
 } */
-h1{
-    
+.eval{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }

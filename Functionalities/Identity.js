@@ -31,6 +31,9 @@
             if(response.ok){
                 const result = await response.json();
                 sessionStorage.setItem("token",result.data);
+                if(ChangeStyle()){
+                    Redirect(true)
+                }
                 window.open("Boompa_Dashboard.html","_blank")
                 window.close()
                 
@@ -42,7 +45,10 @@
 
 }
 
-function Redirect(page){
+function Redirect(IsAdmin){
+    if(IsAdmin == true){
+        window.location.replace("/Admin/Dashboard.html")
+    }
     window.location.replace(page)
 }
 async function Register(event){
@@ -74,25 +80,11 @@ async function Register(event){
     
 }
 
+function ChangeStyle(){
+    alert("")
+    document.body.style.backgroundColor = "#ffffff"
+    const container = document.getElementById("container")
+    container.style.backgroundColor = "#ffff00"
+    return true
+}
 
-
-//TestMethod()
-
-
-// const zablob = new  Blob([TestMethod()])
-
-// // Create element with <a> tag
-// const link = document.createElement("a");
-
-// // Create a blog object with the file content which you want to add to the file
-// const file = new Blob([content], { type: 'text/plain' });
-
-// // Add file content in the object URL
-// link.href = URL.createObjectURL(file);
-
-// // Add file name
-// link.download = "sample.txt";
-
-// // Add click event to <a> tag to save file.
-// link.click();
-// URL.revokeObjectURL(link.href);
