@@ -4,22 +4,10 @@ document.addEventListener(onload,Main())
 
 
 function Main(){
-    // let container = document.getElementById("container")
-    // container.addEventListener("click", event => {
-    //     if(event.target.tagname === "h2"){
-    //         let h2 = container.querySelector("h2")
-    //         let sourceName = h2.textContent
-    //         Redirect(`${sessionStorage.getItem("category")},${sourceName}`)
-    //     }
-    // })
+    
     GetMaterials(sessionStorage.getItem("category"))
 
-    // const materials = document.getElementsByClassName("flex-item")
-    // materials.foreach(material => material.addEventListener("click",mat =>{
-    //     let sourceName = mat
-    // })
-
-    // )
+    
 }
 
 

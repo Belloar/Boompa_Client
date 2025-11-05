@@ -27,6 +27,7 @@ input{
     width: 300px;
     height: 25px;
     margin: 10px;
+    border-radius: 10px;
 }
 
 .flex-form{
@@ -40,4 +41,9 @@ input{
     
     text-align: center;
     font-size: 50px;
+}
+#submit-btn{
+    background-color: var(--primary-border-color);
+    color:white;
+    font-size: 18px;
 }
