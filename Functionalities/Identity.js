@@ -6,7 +6,7 @@
     
 
 
- async function Login(event){
+ async function Login(event,IsAdmin){
     event.preventDefault();
     const form = document.getElementById("login-form");
     if(!form){
@@ -31,11 +31,13 @@
             if(response.ok){
                 const result = await response.json();
                 sessionStorage.setItem("token",result.data);
-                if(ChangeStyle()){
+                if(IsAdmin){
                     Redirect(true)
                 }
-                window.open("Boompa_Dashboard.html","_blank")
-                window.close()
+                else{
+                    window.open("Boompa_Dashboard.html","_blank")
+                    window.close()
+                }
                 
             }
             else{
@@ -46,8 +48,9 @@
 }
 
 function Redirect(IsAdmin){
+    alert("redirect function")
     if(IsAdmin == true){
-        window.location.replace("/Admin/Dashboard.html")
+        window.location.replace("Admin_Dashboard.html")
     }
     window.location.replace(page)
 }
