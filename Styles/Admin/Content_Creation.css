@@ -19,7 +19,10 @@ body{
     background-color: var(--primary-bg-color);
     flex-wrap: wrap;
     margin:0
-}   
+} 
+button:hover{
+    background-color: var(--primary-button-color);
+}  
 #container{
     display: flex;
     flex-wrap: wrap;
@@ -47,8 +50,25 @@ input{
     height: 10vh;
     background-color: rgba(116, 122, 142, 0.856);
 } */
-.eval{
+.wrapper{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    margin: 20px;
+    width: 40%;
+    background-color: white;
+    border: 1px solid;
+    border-radius: 8px;
+   
+    padding: 15px;
+}
+#question{
+    flex:2 2 100%;
+    width:100%;
+}
+#answer{
+
+}
+.wrapper-item{
+    margin:5px
 }
