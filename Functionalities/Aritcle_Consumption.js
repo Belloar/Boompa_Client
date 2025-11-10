@@ -3,8 +3,11 @@ document.addEventListener("onload",Main())
 
 
 function Main(){
+//get the source material from the database
+const material = GetSourceMaterial(localStorage.getItem("categoryName"),localStorage.getItem("sourceName"))
 
-GetSourceMaterial(localStorage.getItem("categoryName"),localStorage.getItem("sourceName"))
+//display the material to the learner
+RenderContent(material.questions)
 
 }
 

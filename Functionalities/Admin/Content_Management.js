@@ -1,53 +1,50 @@
-document.addEventListener("DOMContentLoaded",() => {
+// document.addEventListener("DOMContentLoaded",() => {
 
-    const material = document.getElementById("material-collection")
-    material.addEventListener("submit",(e)=>{
-    e.preventDefault()
-    const form = e.target
-    const sourceFormData = new FormData(form)
-    //AddSourceMaterial(formData)
+//     const material = document.getElementById("material-collection")
+//     material.addEventListener("click",(e)=>{
+//     e.preventDefault()
+//     const form = e.target
+//     const sourceFormData = new FormData(form)
+//     AddSourceMaterial(formData)
 
-    const container = document.getElementById("container")
-    const evalForm = AddQuestion()
+//     const container = document.getElementById("container")
+//     const evalForm = AddQuestion()
 
    
-    container.replaceChild(evalForm,form)  
+//     container.replaceChild(evalForm,form)
 
-    // evalForm.addEventListener("submit", (ev) => {
-    //     ev.preventDefault
-    //     let form = e.target
-    //     const evalFormData = new FormData(form)
-    //     ProcessData(evalFormData)
-
-
-    //     // const processedData = ProcessData(evalFormData)
-    //     // AddQuestionAsync(processedData)
-        
-    // })
-})
-
-    
-})
-
+//     })
+// })
 
 function Main(){
-    document.getElementById("material-collection").addEventListener("submit",(e)=>{
-    e.preventDefault()
-    const form = e.target
+
+    // get the html form and convert it to form data 
+   const form =  document.querySelector("#material-collection")
     const formData = new FormData(form)
+
+    //send the source material to the database
     AddSourceMaterial(formData)
-})
+
+    //replace the source material form with the question submission form to collect the questions to evaluate the learner
+    const container = document.getElementById("container")
+    const evalForm = AddQuestion()
+    container.replaceChild(evalForm,form)
 }
 
 async function AddSourceMaterial(formData){
     try{
-        
+        // add who created the material and the time it was created
         let createdBy = new Date().toISOString()
+        //lines 43 and 44  will be replaced with the jwt later in time
         formData.append("Creator",`bello_ar`)
         formData.append("CreatedOn",`${createdBy}`)
 
-        sessionStorage.setItem("sourceName",`${formData[SourceMaterialName]}`)
-        const response = fetch("https://localhost:44325/api/Admin/TestEndpoint",{
+        // add the sourceMaterail name and its category so as to save the material's questions after
+        sessionStorage.setItem("sourceName",`${formData.get("sourceMaterialName")}`)
+        sessionStorage.setItem("category",`${formData.get("category")}`)
+
+        // send the data to the backend
+        const response = fetch("https://localhost:44325/api/Admin/AddSourceMaterial",{
             method:"POST",
             "headers":{
                 "Authorization":""
@@ -80,39 +77,49 @@ async function ReviewContent(){}
 
 async function AddChallenges(){}
 
+let questionCount = 0;
 function AddQuestion(){
+    //creates the information to be displayed to the admin
     let heading = document.createElement("h2")
     heading.textContent = "Source Evaluation Questions"
 
     let instruction = document.createElement("p")
     instruction.textContent = "Add questions for the source material if any."
 
+    //create the form to be used to collect the evaluation data
     const form = document.createElement("form")
     form.id = "evalForm"
     
+    //creates a button that adds the fields to be used to collect the question data when clicked
     const anotherOne = document.createElement("button")
     anotherOne.textContent = "Add Question"
     anotherOne.type = "button"
-    anotherOne.addEventListener("click",(ev) =>{
-         ev.preventDefault()
-         const questionTemplate = QuestionTemplate()
+    anotherOne.addEventListener("click",() =>{
+         
+         const questionTemplate = QuestionTemplate(questionCount++)
             form.appendChild(questionTemplate)
        
     })
+
+    //the submit button that sends the evaluation data for processing before being sent to the backend
     const submitBtn = document.createElement("button")
     submitBtn.type = "button"
     submitBtn.textContent = "Submit"
-    // submitBtn.addEventListener("click",()=>{ AddQuestionAsync(document.getElementById("evalForm"))})
-    submitBtn.addEventListener("click",(ev)=>{ ProcessData(document.getElementById("evalForm"))})
+   
+    submitBtn.addEventListener("click",()=>{ 
+       
+        ProcessData(document.getElementById("evalForm"))
+    })
     form.append(heading,instruction,anotherOne,submitBtn)
     
     return form
 
 }
 
-function QuestionTemplate(){
+function QuestionTemplate(index){
     const wrapper = document.createElement("div")
     wrapper.classList.add("wrapper")
+    wrapper.dataset.index = index
 
     let label = document.createElement("label")
     label.htmlFor = "question"
@@ -151,26 +158,46 @@ function QuestionTemplate(){
     option3.placeholder = "option"
     option3.classList.add("wrapper-item","option")
 
-    label.append(theQuestion,answer,option1,option2,option3)
+    let files = document.createElement("input")
+    files.type = "file"
+    files.multiple = true
+    files.name = "queFiles"
+    
+
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.textContent = "Remove";
+    removeBtn.addEventListener("click", () => wrapper.remove());
+
+    label.append(theQuestion,answer,option1,option2,option3,files,removeBtn)
    
     wrapper.appendChild(label)
     return wrapper
 
 }
 
-async function AddQuestionAsync(questionData,sourceMaterialName){
+async function AddQuestionAsync(questionData,sourceMaterialName,category){
     
-    const response = fetch("https://localhost:44325/api/Admin/TestEndpoint",{
+    try{
+        const response = fetch("https://localhost:44325/api/Admin/AddQuestions",{
         method:"POST",
         headers:{
+           
             "sourceMaterialName":`${sourceMaterialName}`,
+            "category":`${category}`,
             "Authorization":""
 
         },
-        body:formData
+        body:questionData
     })
 
     const result = (await response).json()
+
+    }
+    catch(err){
+        console.log(err)
+    }
 
 }
 
@@ -179,16 +206,39 @@ function AppendQuestions(sourceFormData,evalFormData){
 
 }
 function ProcessData(form){
-    let formData = new FormData(form)
-   const obj = {};
-formData.forEach((value, key) => {
-  if (obj[key]) {
-    // Handle fields with same name (e.g., multiple checkboxes)
-    obj[key] = [].concat(obj[key], value);
-  } else {
-    obj[key] = value;
-  }
-});
+const wrappers = Array.from(form.querySelectorAll(".wrapper"));
+  const formData = new FormData();
 
-console.log(obj);
+  wrappers.forEach((w, i) => {
+    const description = w.querySelector('[name="Description"]').value.trim();
+    const answer = w.querySelector('[name="Answer"]').value.trim();
+    const opt =  Array.from(w.querySelectorAll('[name="option"]')).map(i => i.value.trim())
+    const options = opt.join("|")
+    
+    
+    formData.append(`questions[${i}].description`, description);
+    formData.append(`questions[${i}].answer`, answer);
+    formData.append(`questions[${i}].option`, options);
+
+   
+    const files = w.querySelector('[name="queFiles"]')?.files;
+    if (files && files.length > 0) {
+      for (let j = 0; j < files.length; j++) {
+        formData.append(`questions[${i}].queFiles`, files[j]);
+      }
+    }
+  });
+
+  console.log([formData])
+  AddQuestionAsync(formData,sessionStorage.getItem("sourceName"),sessionStorage.getItem("category"))
+  
+}
+
+function PointsOfImprovement(){
+    // make the content box have a limit of words so as to make the implementation of evauation mid-content consumption easier
+
+    //make the source material and the questions data go to the database at once 
+
+    // introduce question type to the content creation form. the question type will help define the different ways question
+    //data can be collected and rendered to the user (this will be done in the backend)
 }
