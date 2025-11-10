@@ -20,10 +20,10 @@
         <form id="material-collection">
             <h1>Create Content</h1><br>
             <label for="SourceMaterialName">Material Name</label>
-            <input class = "text-field"type="text" name="SourceMaterialName"id="SourceMaterialName"required >
+            <input class = "text-field"type="text" name="sourceMaterialName"id="SourceMaterialName"required >
             
             <label for="Category">Category</label>
-            <input class = "text-field"type="text" name="Category"id="Category" required >
+            <input class = "text-field" type="text" name="category"id="Category" required >
 
             <label for="Description">Description</label>
             <input class = "text-field"type="text" name = "Description"id="Description" required ><br>
@@ -33,7 +33,7 @@
 
             <input type="file" name="RawFiles" multiple ><br>
                 
-            <input type="submit" value="Submit">
+            <input type="button" value="Submit" onclick="Main()">
             
         </form>
     </div>

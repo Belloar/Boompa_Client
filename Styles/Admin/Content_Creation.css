@@ -28,7 +28,7 @@ button:hover{
     flex-wrap: wrap;
     justify-content: center;
     width: 60%;
-    height: 100vh;
+    min-height: 100vh;
     /* border:10px solid red; */
     background-color: var(--primary-item-color);
 }
