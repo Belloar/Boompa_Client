@@ -13,27 +13,36 @@
             
         </nav>
         
-        <form action="" class="flex-item flex-form " id="registration-form" >
+        <form action="" class="flex-item" id="registration-form" >
             
-            <h2 class="item formheader">
+            <h2 class="item form-item">
             Create Your Account
             </h2>
 
-            <label for="fname" class="flex-item">Username: </label>
-            <input type="text"  name ="username" id="fname" class="flex-item"required autocomplete="username">
+            <label for="fname" class="form-item">Username:
+                <br><input type="text"  name ="username" id="fname" class="flex-item"required autocomplete="username">
+            </label>
             
-            <label for="code" class="flex-item">Password:</label>
-            <input type="password" name="password" id="code" class="flex-item"required autocomplete="new-password">
             
-            <label for="email-address"  class="flex-item">Email address:</label>
-            <input type="email"  name="email" id="email-address" class="flex-item" required autocomplete="email">
+            <label for="code" class="form-item">Password:
+                <br><input type="password" name="password" id="code" class="flex-item"required autocomplete="new-password">
+            </label>
+            
+            
+            <label for="email-address"  class="form-item">Email address:
+                <br><input type="email"  name="email" id="email-address" class="flex-item" required autocomplete="email">
+            </label>
+            
 
-            <label for="ojo-ori" class="flex-item">Age:</label>
-            <input type="number"  name="age" id="ojo-ori" class="flex-item" required>
+            <label for="age" class="form-item">Age:
+                <br><input type="number"  name="age" id="age" class="flex-item" required>
+            </label>
+            
 
-            <label for="ph-num" class="flex-item">Phone Number:</label>
-            <input type="text" name="phone-number" id="ph-num" class="flex-item" required >
-
+            <label for="ph-num" class="form-item">Phone Number:
+                <br><input type="text" name="phone-number" id="ph-num" class="flex-item" required >
+            </label>
+            
             <button id="submit-btn" onclick="Register(event)">Submit</button>
             
             

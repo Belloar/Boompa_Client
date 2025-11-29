@@ -9,14 +9,19 @@
 </head>
 <body>
     <div id="container">
-        <a class="action" onclick="GetAllUsers()">Get Users</a>
+        <a class="action" onclick="GetAllLearners(0)">Get Users</a>
         
         <a class="action">Delete User</a>
         <a class="action">Suspend User</a>
         <a class="action">Get Learner History</a>
         <a class="action">Reports</a>
-        <a class="action"></a>
+        <a class="action">Add New Administrator</a>
         <a class="action"></a>
     </div>
+    <nav id="paging-nav">
+        <button type="button" onclick="Previous()">Previous</button>
+        <button type="button" onclick="Next()">Next</button>
+    </nav>
+
 </body>
 </html>

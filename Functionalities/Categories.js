@@ -1,6 +1,6 @@
 
 function Redirect(){
-    window.location.replace("Materials_Display.html")
+    window.location.assign("Materials_Display.html")
 }
 
 function PickCategory(categoryName){

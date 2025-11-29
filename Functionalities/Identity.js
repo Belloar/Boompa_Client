@@ -31,12 +31,14 @@
             if(response.ok){
                 const result = await response.json();
                 sessionStorage.setItem("token",result.data);
+
+                console.log(result.data)
                 if(IsAdmin){
                     Redirect(true)
                 }
                 else{
-                    window.open("Boompa_Dashboard.html","_blank")
-                    window.close()
+                    window.location.assign("/Pages/Dashboard.html")
+                    
                 }
                 
             }
@@ -78,7 +80,7 @@ async function Register(event){
 
         if(response.ok){
             alert(await response.text())
-            window.location.replace("Boompa_Signin.html")
+            window.location.replace("Signin.html")
         }
     
 }

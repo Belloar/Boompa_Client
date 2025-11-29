@@ -36,28 +36,37 @@ async function GetMaterials(categoryName){
 
 
 function DisplayArticles(payload){
-    payload.result.forEach(sourceMaterial => {
+    payload.forEach(sourceMaterial => {
+        //let id = sourceMaterial
+
+        // will be responsible for the clicking event
         let a = document.createElement("a");
-        a.id= sourceMaterial.sourceName
-        let heading = document.createElement("h2");
-        let p = document.createElement("p")
-        
-        heading.textContent=sourceMaterial.sourceName
-        p.textContent=sourceMaterial.sourceDescription
+        a.id= sourceMaterial.sourceId
         a.classList.add("flex-item")
+
+        //Display the source material name
+        let heading = document.createElement("h2");
+        heading.textContent=sourceMaterial.sourceName
+
+        //Display the description of the article
+        let p = document.createElement("p")
+        p.textContent=sourceMaterial.sourceDescription
 
         a.appendChild(heading)
         a.appendChild(p)
         document.getElementById("container").appendChild(a)
-        a.addEventListener("click",() => Redirect(`${sessionStorage.getItem("category")}`,sourceMaterial.sourceName))
+
+        //when clicked store the category name and the source material id 
+        console.log(`${a.id}`)
+        a.addEventListener("click",() => Redirect(`${sessionStorage.getItem("category")}`,a.id))
     });
 }
 
 
 
 
-function Redirect(categoryName,sourceName){
+function Redirect(categoryName,sourceId){
     localStorage.setItem("categoryName",categoryName)
-    localStorage.setItem("sourceName",sourceName)
-    window.location.replace("/pages/Article_Consumption.html")
+    localStorage.setItem("sourceId",sourceId)
+    window.location.assign("/pages/Article_Consumption.html")
 }
