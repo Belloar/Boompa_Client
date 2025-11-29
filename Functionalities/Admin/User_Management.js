@@ -1,4 +1,4 @@
-
+var Learners = {};
 function Main(){
  
 }
@@ -28,37 +28,40 @@ async function CreateAdmin(){
     
 }
 
-async function GetAllUsers(){
+async function GetAllLearners(size){
     try{
 
-    const response = await fetch("https://localhost:44325/api/Identity/GetUsers")
+    const response = await fetch(`https://localhost:44325/api/Learners/GetLearners/${size}`)
 
     let result = await response.json()
-    DisplayUsers(result)
-    console.log(result)
+    Learners = result.data
+    DisplayUsers(Object.keys(result.data))
+    // console.log(result)
     }
     catch(err){
         alert(err)
         console.log(err)
     }
 }
-function DisplayUsers(payload){
-    const nonDisplayable = ["id","hashsalt","password"]
+function DisplayUsers(keys){
+    
     const container = document.getElementById("container")
     const table = document.createElement("table")
     table.id = "display-table"
     let head = document.createElement("thead")
     let body = document.createElement("tbody")
 
-    const keys = Object.keys(payload.data[0])
+    // const keys = Object.keys(payload.data[0])
     keys.forEach(key => {
         let th = document.createElement("th")
         th.textContent = key
         head.appendChild(th)
     })
 
-    const users = payload.data
-    users.forEach(user => {
+    let tableData = SplitData(Learners,1)
+
+    //const users = payload.data
+    tableData.forEach(learner => {
         let tr = document.createElement("tr")
         for(let field in user){
             var td = document.createElement("td")
@@ -104,8 +107,26 @@ function DisplayHistory(payload){}
 async function FetchReports(){}
 function DisplayReports(){}
 
+
+
 async function SuspendUser(){}
 async function DeleteUser(){}
+
+function SplitData(payload,pageNumber){
+    let start = (pageNumber-1)*5
+    
+    let bundledData = Object.entries(payload)
+    let splitData = bundledData.splice(start,start+5)
+
+    return splitData
+}
+function Previous(pageNumber){
+    return SplitData(Learners,pageNumber)
+}
+function Next(pageNumber){
+    return SplitData(Learners,pageNumber)
+}
+
 
 
 

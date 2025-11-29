@@ -1,6 +1,6 @@
 *{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: var(--primary-bg-color);
+    
 
 }
 :root{
@@ -10,6 +10,9 @@
     --primary-border-color:rgb(41, 145, 236);
 
 }  
+body{
+    background-color: var(--primary-bg-color);
+}
 .container{
     display:flex;
     flex-direction: column;
@@ -27,17 +30,31 @@ input{
     width: 300px;
     height: 25px;
     margin: 10px;
+    border: 1px solid black;
+    border-radius: 8px;
 }
 
-.flex-form{
-    
+#registration-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    background-color: white;
     border: 5px solid rgb(173, 211, 244);;
     border-radius: 25px;
     box-shadow: 4px 4px var(--primary-border-color);
     padding: 50px;
 }
+
+
 .formheader{
     
     text-align: center;
     font-size: 50px;
+}
+#submit-btn{
+    font-size: 20px;
+    margin: 15px;
+    padding: 7px;
+    background-color: var(--primary-button-color);
+    border-radius: 10px;
 }
