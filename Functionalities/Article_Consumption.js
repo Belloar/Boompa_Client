@@ -10,7 +10,7 @@ GetSourceMaterial(localStorage.getItem("categoryName"),localStorage.getItem("sou
 async function GetSourceMaterial(categoryName,sourceId){
 
    try{
-     const response = await fetch("https://localhost:44325/api/SourceMaterial/GetSourceMaterial/",{
+     const response = await fetch("https://localhost:57561/api/SourceMaterial/GetSourceMaterial/",{
         headers:{
             "sourceId":`${sourceId}`,
             "category": `${categoryName}`,
@@ -57,23 +57,53 @@ function DisplayQuestions(payload,categoryId){
             wrapper.classList.add("question")
             let que = document.createElement("legend")
 
-            //the element that will hold the question
-            que.id = `Q${i+=1}. `
-            que.textContent = que.id + question.question
-            wrapper.appendChild(que)
+            switch (question.questionType) {
+                case "default":
+                            //the element that will hold the question
+                    que.id = `Q${i+=1}. `
+                    que.textContent = que.id + question.textQuestion
+                    wrapper.appendChild(que)
 
-            //the options for each question
-            let opt = RefineOptions(question.options,question.answer,`Q${i}`)
-            let labels = ["A.","B.","C.","D."]
-            for(i = 0,a=0; i<opt.length;){
-                //remove a random option from the option array
-                let refinedOption = opt.splice(Math.floor(Math.random()*opt.length),1)
-                //append it to the fieldset
-                wrapper.append(labels[a],refinedOption[0])
-                a++
-                wrapper.appendChild(document.createElement("br"))
+                    //the options for each question
+                    let opt = RefineOptions(question.options,question.answer,`Q${i}`)
+                    let labels = ["A.","B.","C.","D."]
+
+                    for(i = 0,a=0; i<opt.length;){
+                        //remove a random option from the option array
+                        let refinedOption = opt.splice(Math.floor(Math.random()*opt.length),1)
+                        //append it to the fieldset
+                        wrapper.append(labels[a],refinedOption[0])
+                        a++
+                        wrapper.appendChild(document.createElement("br"))
+                    }
+                        
+                    break;
+                case "type2":
+                     //the element that will hold the question
+                    que.id = `Q${i+=1}. `
+                    que.textContent = que.id
+                    let image = document.createElement("img")
+                    image.src = question.fileQuestion
+                   
+                    //the options for each question
+                    let opt2 = RefineOptions(question.options,question.answer,`Q${i}`)
+                    let labels2 = ["A.","B.","C.","D."]
+                    for(i = 0,a=0; i<opt2.length;){
+                        //remove a random option from the option array
+                        let refinedOption = opt2.splice(Math.floor(Math.random()*opt2.length),1)
+                        //append it to the fieldset
+                        wrapper.appendChild(que)
+                        wrapper.append(image,labels2[a],refinedOption[0])
+                        a++
+                        wrapper.appendChild(document.createElement("br"))
+                    }
+                        
+                            break;
+                        default:
+                            break;
             }
-                evaluationForm.appendChild(wrapper)
+            evaluationForm.appendChild(wrapper)
+           
         });
 
         //create the submit button

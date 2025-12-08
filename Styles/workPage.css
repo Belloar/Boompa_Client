@@ -30,7 +30,38 @@ body{
     height: 60vh;
     border: 3px solid var(--primary-border-color);
     border-radius: 15px;
+    margin: 20px;
 
+}
+#startBtn{
+    background-color: var(--alt-color);
+    color:white;
+    font-size: 30px;
+    flex: 1 1 50px;
+    width: 150px;
+    border: 2px solid var(--primary-border-color);
+    border-radius: 10px;
+    transition: width 0.3s ease-in, flex-basis 0.3s ease-in;
+    
+}
+#startBtn:hover{
+width:155px;
+flex-basis: 55px;
+background-color: var(--primary-button-color);
+}
+
+#instruction{
+  font-size: 30px;
+}
+#theLevel{
+  font-size: 30px;
+}
+#displayFrame{
+
+  text-align: center;
+}
+#displayElement{
+  font-size: 150px;
 }
 .fade {
   opacity: 0;
@@ -39,5 +70,5 @@ body{
 
 .fade.show {
   opacity: 1;
-  font-size: 40px;
+  
 }

@@ -15,7 +15,7 @@ function Main(){
 
 async function GetMaterials(categoryName){
     try{
-        const response = await fetch(`https://localhost:44325/api/SourceMaterial/GetSourceMaterialNames/`,{
+        const response = await fetch(`https://localhost:57561/api/SourceMaterial/GetSourceMaterialNames/`,{
             headers:{
                 "categoryName":`${categoryName}`
             }
