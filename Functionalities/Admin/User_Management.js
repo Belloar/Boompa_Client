@@ -28,10 +28,10 @@ async function CreateAdmin(){
     
 }
 
-async function GetAllLearners(size){
+async function GetAllUsers(size){
     try{
 
-    const response = await fetch(`https://localhost:44325/api/Learners/GetLearners/${size}`)
+    const response = await fetch(`https://localhost:44325/api/Identity/GetUsers/${size}`)
 
     let result = await response.json()
     Learners = result.data

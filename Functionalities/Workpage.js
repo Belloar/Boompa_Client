@@ -8,85 +8,127 @@ function Main(){
     var key = sessionStorage.getItem("level")
     switch (key) {
         case "1":
-            // alert(key)
             Level1()
             break;
-    
+        case "2":
+            Level2()
+            break;
+        case "3":
+            Level3()
+            break;
+        case "4":
+            Level4()
+            break;
+        case "5":
+            Level1()
+            break;
         default:
             break;
     }
 }
 
 function Level1(){
-    // alert("inside level 1")
-    let correct = 0
-    let wrong = 0
-    let answer = 0
     let instruction = document.getElementById("instruction")
     let level = document.getElementById("theLevel")
     
 
     instruction.textContent = "Add all the Numbers displayed in the frame below"
     level.textContent = "Level 1"
-    //alert("displayed level and instructions")
-
-    let digits = DigitGenerator(10,10)
-        //alert("digits generated")
-        let result = Calculate(digits,1)
-        //alert(`result = ${result}`)
-
-        let startBtn = document.getElementById("startBtn")
-        startBtn.addEventListener("click",() =>{
-            // alert("about to display digits")
-            answer = Display(digits,1)
-        })
+    
+    
+    let startBtn = document.getElementById("startBtn")
+    startBtn.addEventListener("click",() =>{
         
-        // alert("digits displayed")
-
-        // if(answer == null || answer == undefined){
-        //     count++;
-        //     if(count<5){
-        //         Level1()
-        //     }
-        //     else{
-        //         return
-        //     }
-        // }
-        // if(result == answer){
-        //     correct++; count++;
-
-        //     if(count<5){
-        //         Level1()
-        //     }
-        //     else{
-        //         return
-        //     }
-
-        // }
-        // else{
-        //     wrong++
-        //      count++;
-
-        //     if(count<5){
-        //         Level1()
-        //     }
-        //     else{
-        //         return
-        //     }
-        // }
-
+        Play(10,10,1,5)
+        startBtn.remove()
+    })
 }
 function Level2(){
+    let instruction = document.getElementById("instruction")
+    let level = document.getElementById("theLevel")
+    
 
+    instruction.textContent = "Add all the Numbers displayed in the frame below"
+    level.textContent = "Level 2"
+    
+    
+    let startBtn = document.getElementById("startBtn")
+    startBtn.addEventListener("click",() =>{
+        
+        Play(10,99,2,5)
+        startBtn.remove()
+    })
 }
 function Level3(){
+    let instruction = document.getElementById("instruction")
+    let level = document.getElementById("theLevel")
+    
 
+    instruction.textContent = "complete the operations displayed in the frame below,you have 5 seconds to provide your answer after the numbers have been displayed"
+    level.textContent = "Level 3"
+    
+    
+    let startBtn = document.getElementById("startBtn")
+    startBtn.addEventListener("click",() =>{
+        
+        Play(10,10,3,5)
+        startBtn.remove()
+    })
 }
 function Level4(){
+    let instruction = document.getElementById("instruction")
+    let level = document.getElementById("theLevel")
+    
 
+    instruction.textContent = "complete the operations displayed in the frame below,you have 5 seconds to provide your answer after the numbers have been displayed"
+    level.textContent = "Level 4"
+    
+    
+    let startBtn = document.getElementById("startBtn")
+    startBtn.addEventListener("click",() =>{
+        
+        Play(10,99,4,5)
+        startBtn.remove()
+    })
 }
 function Level5(){
 
+}
+
+async function Play(arraySize,maxNum,level,rounds){
+     //declaring necessary variables
+    let correct = 0
+    let wrong = 0
+    let round = 1
+    while(round<=rounds){
+        //generate random numbers to work on
+        let digits = DigitGenerator(arraySize,maxNum)
+
+        //calculate and return the result of the operations carried out
+        let result = Calculate(digits,level)
+
+        console.log(result)
+        //display digit to learner
+        await Display(digits,level)
+
+        //get learner's answer
+        let answer = await CollectAnswer()
+        round++
+        let input = document.querySelector(".answer")
+        input.remove()
+        if(answer==null || answer == undefined){
+            alert(`invalid input...correct answer is ${result} `)
+        }
+        if(result == answer){
+            alert("correct")
+            correct++
+        }
+        else{
+            alert(`wrong... correct answer is${result}`)
+            wrong++
+        }
+    }
+    
 }
 
 function Calculate(numbers,level){
@@ -104,24 +146,24 @@ function Calculate(numbers,level){
             break;
         case 3:
             numbers.forEach((number,i) => {
-                if(i%3 == 0)
+                if(i%3 == 0 && i!=0)
                 {
                     result*=number
                 }
                 else{
-                    result+=0
+                    result+=number
                 }
             });
             break;
 
         case 4:
             numbers.forEach((number,i) => {
-                if(i%3 == 0)
+                if(i%3 == 0&& i!=0)
                 {
                     result*=number
                 }
                 else{
-                    result+=0
+                    result+=number
                 }
             });
         default:
@@ -131,6 +173,7 @@ function Calculate(numbers,level){
 }
 
 function Delay(duration){
+    duration*=1000
     return new Promise(resolve => setTimeout(resolve,duration))
 }
 async function Display(numbers,level){
@@ -138,78 +181,80 @@ async function Display(numbers,level){
     display.classList.add("fade","show")
     console.log(numbers)
 
+    let answer = 0
     switch (level) {
         case 1:
-            
-            for(i = 0;i<numbers.length;i++){
+            for(i = 0;i< numbers.length;i++){
                 display.classList.remove("show")
                 display.textContent = numbers[i]
 
                 void display.offsetWidth
                 display.classList.add("show")
-                await Delay(1000)
+                await Delay(1)
             }
-            return CollectAnswer()
+            
             break;
+
         case 2:
-            numbers.forEach(number =>{
+            for(i = 0;i< numbers.length;i++){
                 display.classList.remove("show")
-                display.textContent = `${number}`
+                display.textContent = numbers[i]
 
                 void display.offsetWidth
                 display.classList.add("show")
-                Delay(1000)
-            })
-            return CollectAnswer()
+                await Delay(1)
+            }
+            
             break;
         case 3:
-            numbers.forEach((number,i) => {
-                if(i%3 == 0)
+            for(i = 0;i< numbers.length;i++){
+            if(i%3 == 0 && i!=0)
                 {
                     display.classList.remove("show")
-                    display.textContent = `x ${number}`
+                    display.textContent = `x ${numbers[i]}`
 
                     void display.offsetWidth
                     display.classList.add("show")
-                    Delay(1000)
+                    await Delay(1)
                 }
                 else{
                     display.classList.remove("show")
-                    display.textContent = `+ ${number}`
+                    display.textContent = `+ ${numbers[i]}`
 
                     void display.offsetWidth
                     display.classList.add("show")
-                    Delay(1000)
+                    await Delay(1)
                 }
-            });
-            return CollectAnswer()
+           }
+            
             break;
 
         case 4:
-            numbers.forEach((number,i) => {
-                if(i%3 == 0)
+           for(i = 0; i< numbers.length;i++){
+            if(i%3 == 0&& i!=0)
                 {
                     display.classList.remove("show")
-                    display.textContent = `x ${number}`
+                    display.textContent = `x ${numbers[i]}`
 
                     void display.offsetWidth
                     display.classList.add("show")
-                    Delay(1000)
+                    await Delay(1)
                 }
                 else{
                     display.classList.remove("show")
-                    display.textContent = `+ ${number}`
+                    display.textContent = `+ ${numbers[i]}`
 
                     void display.offsetWidth
                     display.classList.add("show")
-                    Delay(1000)
+                    await Delay(1)
                 }
-            });
-            return CollectAnswer()
+           }
+            
             break;
         default:
             break;
         }
+        return answer
 }
 
 function DigitGenerator(arraySize,maxNum){
@@ -221,26 +266,26 @@ function DigitGenerator(arraySize,maxNum){
     return result
 }
 
-function CollectAnswer(){
-    let container = document.getElementById("container") 
-    let startBtn = document.getElementById("startBtn")
+async function CollectAnswer(){
+    let container = document.getElementById("container")
 
+    //input field the answer will be inputed by the learner
     let input = document.createElement("input")
     input.placeholder = "Input your Answer"
+    input.required = true
     input.type = "number"
     input.classList.add("answer")
     
-    let btn = document.createElement("button")
-    btn.type = "button"
-    btn.textContent = "Next round"
-    btn.addEventListener("click",()=>{
-        return input.value
-    })
     
+    container.append(input)
+    await Delay(5)
+    return input.value
+}
 
-    container.replaceChild(startBtn,input)
-    container.appendChild(btn)
+function ComputeRewards(){
 
 }
-function ComputeRewards(){}
+async function DocumentVisit(){
+    
+}
 
