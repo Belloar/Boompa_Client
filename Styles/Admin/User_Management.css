@@ -14,29 +14,47 @@
 }
 body{
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     margin: 0;
 }
 #container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     background-color: var(--primary-item-color);
-    width: 100%;
     min-height: 100vh;
     overflow-x: auto;
 
 
 }
+#actionArea{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    align-items: start;
+    background-color: var(--alt-color);
+    color: white;
+    flex: 1 1 20%;
+}
+#displayArea{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+.pageButton{
+    flex: 1 1 20px;
+}
 .action{
-    width:150px;
-    height:100px;
-    margin: 10px;
+    /* width:150px;
+    height:100px; */
+    margin: 20px;
     text-align: center;
     text-decoration: none;
-    color: black;
+    /* color: black; */
     font-size: 20px;
-    background-color: var(--primary-bg-color);
+    /* background-color: var(--primary-bg-color); */
 }
 table{
     flex: 1;
@@ -56,4 +74,22 @@ thead{
 tr:hover{
     background-color: var(--primary-border-color);
     color: white;
+}
+
+.actionButton{
+    border: 2px solid var(--primary-border-color);
+    border-radius: 8px;
+    width: 80px;
+    height: 70px;
+    transition: width 0.5s ease-in,height 0.5s ease-in;
+}
+.actionButton{
+    width: 83px;
+    height: 73px;
+}
+#getButton{
+    background-color: green;
+}
+#deleteButton{
+    background-color: red;
 }

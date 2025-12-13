@@ -38,8 +38,14 @@ function RenderContent(payload){
     
     // appends the content
     let p = document.createElement("p")
-    p.textContent = payload.content
+    p.textContent = payload.textContent
     displayFrame.appendChild(p)
+
+    payload.sourceFiles.forEach(fileUrl => {
+        let image = document.createElement("img")
+        image.src = fileUrl
+        image.classList.add("sourceFile")
+    })
 
     // handles the display of the questions
     DisplayQuestions(payload.questions,payload.categoryId)
@@ -195,14 +201,15 @@ function ComputeRewards(categoryId){
     })
 
     let result = (correct/totalQuestions)*100
+    let date = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate() > 9 ? new Date().getDate() : "0"+new Date().getDate()}`
     
     //request payload
-    let hermes = {
-            "categoryId":categoryId,
-            "coinCount":Math.round(result),
-            "date":`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
-            "duration": duration.toFixed(3),
-            "ticketCount":2,
+    let hermes ={
+                "categoryId":categoryId,
+                "coinCount":Math.round(result),
+                "date":date,
+                "duration": duration.toFixed(3),
+                "ticketCount":2,
     }
     console.log(hermes)
     sessionStorage.removeItem("startTime")
@@ -212,7 +219,8 @@ function ComputeRewards(categoryId){
 }
 
 async function DocumentVisit(payload){
-    const response = await fetch("https://localhost:44325/api/Learner/UpdateLearnerStats/",{
+    console.log(sessionStorage.getItem("token"))
+    const response = await fetch("https://localhost:57561/api/Learner/UpdateLearnerStats/",{
         method:"PUT",
         headers:{
             "Content-Type":"application/json",
@@ -221,6 +229,9 @@ async function DocumentVisit(payload){
         body:JSON.stringify(payload)
 
     })
+    let result = await response.json()
+    console.log(result)
+    alert(result.data)
 }
 
 

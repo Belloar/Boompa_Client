@@ -1,12 +1,12 @@
 var sourceId = null
-function Main(){
+async function Main(){
 
     // get the html form and convert it to form data 
    const form =  document.querySelector("#material-collection")
     const formData = new FormData(form)
 
     //send the source material to the database
-    sourceId = AddSourceMaterial(formData)
+    sourceId = await AddSourceMaterial(formData)
 
     //replace the source material form with the question submission form to collect the questions to evaluate the learner
     const container = document.getElementById("container")
@@ -18,8 +18,7 @@ async function AddSourceMaterial(formData){
     try{
         // add who created the material and the time it was created
         let createdBy = new Date().toISOString()
-        //lines 43 and 44  will be replaced with the jwt later in time
-        formData.append("Creator","Bello_ar")
+        // formData.append("Creator","Bello_ar")
         formData.append("CreatedOn",`${createdBy}`)
 
         // add the sourceMaterail name and its category so as to save the material's questions after
@@ -37,6 +36,7 @@ async function AddSourceMaterial(formData){
         })
 
         const result = (await response).json()
+        alert(result.StatusCode)
         return result.data
         
     }
@@ -207,6 +207,7 @@ async function AddQuestionAsync(questionData,sourceId){
 
     const result = (await response).json()
     console.log(result)
+    window.location.reload()
     }
     catch(err){
         console.log(err)
@@ -259,11 +260,11 @@ const wrappers = Array.from(form.querySelectorAll(".wrapper"));
    }
   });
 
-  for (let pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
-}
+//   for (let pair of formData.entries()) {
+//     console.log(pair[0], pair[1]);
+// }
 
-  AddQuestionAsync(formData,"58485a84-37cc-4f0b-bd13-ec4b3bcad8ed")
+  AddQuestionAsync(formData,"ea00f834-b619-4070-b10e-f69b7306f3e8")
   
 }
 function ChangeQuestionType(targetValue,target){
