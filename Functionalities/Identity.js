@@ -6,8 +6,8 @@
     
 
 
- async function Login(event,IsAdmin){
-    event.preventDefault();
+ async function Login(IsAdmin){
+    
     const form = document.getElementById("login-form");
     if(!form){
         alert("form not received")
@@ -18,7 +18,7 @@
     let searchString = formData.get("username");
     let password = formData.get("password");
 
-    let response = await fetch(`https://localhost:44325/api/Identity/UserLogin/`,
+    let response = await fetch(`https://localhost:57561/api/Identity/UserLogin/`,
             {
                 method:'GET',
                 headers:{
