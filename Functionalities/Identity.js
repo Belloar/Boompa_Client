@@ -50,11 +50,10 @@
 }
 
 function Redirect(IsAdmin){
-    alert("redirect function")
+    
     if(IsAdmin == true){
-        window.location.replace("Admin_Dashboard.html")
+        window.location.assign("Admin_Dashboard.html")
     }
-    window.location.replace(page)
 }
 async function Register(event){
     event.preventDefault();

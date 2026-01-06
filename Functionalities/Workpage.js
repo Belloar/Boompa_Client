@@ -1,12 +1,22 @@
-document.addEventListener("DOMContentLoaded",()=>{
+var count = 0;
+let level = "1"
+let flag = false
+document.getElementById("startBtn").addEventListener("click",()=>{
+    flag = true
     Main()
 })
-var count = 0;
+
+document.getElementById("leveler").addEventListener("change",(ev) => {
+    level = ev.target.value
+    console.log(level)
+})
+document.getElementById("stopBtn").addEventListener("click",()=>{
+    flag = false
+})
+
 
 function Main(){
-    // alert("inside main")
-    var key = sessionStorage.getItem("level")
-    switch (key) {
+    switch (level) {
         case "1":
             Level1()
             break;
@@ -28,20 +38,8 @@ function Main(){
 }
 
 function Level1(){
-    let instruction = document.getElementById("instruction")
-    let level = document.getElementById("theLevel")
-    
-
-    instruction.textContent = "Add all the Numbers displayed in the frame below"
-    level.textContent = "Level 1"
-    
-    
-    let startBtn = document.getElementById("startBtn")
-    startBtn.addEventListener("click",() =>{
-        
-        Play(10,10,1,5)
-        startBtn.remove()
-    })
+    SpeedPlay(10,10,1,5)
+    startBtn.remove()
 }
 function Level2(){
     let instruction = document.getElementById("instruction")
@@ -51,56 +49,41 @@ function Level2(){
     instruction.textContent = "Add all the Numbers displayed in the frame below"
     level.textContent = "Level 2"
     
-    
-    let startBtn = document.getElementById("startBtn")
-    startBtn.addEventListener("click",() =>{
-        
-        Play(10,99,2,5)
+        SpeedPlay(10,99,2,5)
         startBtn.remove()
-    })
+    
 }
 function Level3(){
     let instruction = document.getElementById("instruction")
     let level = document.getElementById("theLevel")
-    
 
     instruction.textContent = "complete the operations displayed in the frame below,you have 5 seconds to provide your answer after the numbers have been displayed"
     level.textContent = "Level 3"
     
-    
-    let startBtn = document.getElementById("startBtn")
-    startBtn.addEventListener("click",() =>{
-        
-        Play(10,10,3,5)
-        startBtn.remove()
-    })
+    SpeedPlay(10,10,3,5)
+    startBtn.remove()
 }
 function Level4(){
     let instruction = document.getElementById("instruction")
     let level = document.getElementById("theLevel")
-    
 
     instruction.textContent = "complete the operations displayed in the frame below,you have 5 seconds to provide your answer after the numbers have been displayed"
     level.textContent = "Level 4"
-    
-    
-    let startBtn = document.getElementById("startBtn")
-    startBtn.addEventListener("click",() =>{
-        
-        Play(10,99,4,5)
-        startBtn.remove()
-    })
+
+    SpeedPlay(10,99,4,5)
+    startBtn.remove()
 }
 function Level5(){
 
 }
 
-async function Play(arraySize,maxNum,level,rounds){
+async function SpeedPlay(arraySize,maxNum,level,rounds){
+    document.getElementById("stopBtn").style.display = "block"
      //declaring necessary variables
     let correct = 0
     let wrong = 0
     let round = 1
-    while(round<=rounds){
+    while(round<=rounds && flag == true){
         //generate random numbers to work on
         let digits = DigitGenerator(arraySize,maxNum)
 
@@ -124,7 +107,7 @@ async function Play(arraySize,maxNum,level,rounds){
             correct++
         }
         else{
-            alert(`wrong... correct answer is${result}`)
+            alert(`wrong... correct answer is ${result}`)
             wrong++
         }
     }
@@ -179,7 +162,7 @@ function Delay(duration){
 async function Display(numbers,level){
     let display = document.getElementById("displayElement")
     display.classList.add("fade","show")
-    console.log(numbers)
+    // console.log(numbers)
 
     let answer = 0
     switch (level) {
@@ -278,6 +261,7 @@ async function CollectAnswer(){
     
     
     container.append(input)
+    input.focus()
     await Delay(5)
     return input.value
 }
@@ -288,4 +272,15 @@ function ComputeRewards(){
 async function DocumentVisit(){
     
 }
+
+
+
+
+
+
+////////////////////////////////////
+/////points of imorovement/////////
+//////////////////////////////////
+
+// find a way to reconcile the methods used for speedplay and conceptpractice
 

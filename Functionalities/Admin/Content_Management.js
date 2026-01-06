@@ -7,18 +7,20 @@ async function Main(){
 
     //send the source material to the database
     sourceId = await AddSourceMaterial(formData)
+    
 
     //replace the source material form with the question submission form to collect the questions to evaluate the learner
     const container = document.getElementById("container")
     const evalForm = AddQuestion()
     container.replaceChild(evalForm,form)
+    alert(sourceId)
 }
 
 async function AddSourceMaterial(formData){
     try{
         // add who created the material and the time it was created
         let createdBy = new Date().toISOString()
-        // formData.append("Creator","Bello_ar")
+        
         formData.append("CreatedOn",`${createdBy}`)
 
         // add the sourceMaterail name and its category so as to save the material's questions after
@@ -26,7 +28,7 @@ async function AddSourceMaterial(formData){
         sessionStorage.setItem("category",`${formData.get("category")}`)
 
         // send the data to the backend
-        const response = fetch("https://localhost:57561/api/SourceMaterial/AddSourceMaterial",{
+        const response = await fetch("https://localhost:57561/api/SourceMaterial/AddSourceMaterial",{
             method:"POST",
             "headers":{
                 "Authorization":`Bearer ${sessionStorage.getItem("token")}`
@@ -35,8 +37,7 @@ async function AddSourceMaterial(formData){
             
         })
 
-        const result = (await response).json()
-        alert(result.StatusCode)
+        const result = await response.json()
         return result.data
         
     }
@@ -199,7 +200,7 @@ async function AddQuestionAsync(questionData,sourceId){
         headers:{
            
             "sourceId":`${sourceId}`,
-            "Authorization":`bearer ${sessionStorage.getItem("token")}`
+            "Authorization":`Bearer ${sessionStorage.getItem("token")}`
 
         },
         body:questionData
@@ -207,7 +208,7 @@ async function AddQuestionAsync(questionData,sourceId){
 
     const result = (await response).json()
     console.log(result)
-    window.location.reload()
+    // window.location.reload()
     }
     catch(err){
         console.log(err)
@@ -263,8 +264,8 @@ const wrappers = Array.from(form.querySelectorAll(".wrapper"));
 //   for (let pair of formData.entries()) {
 //     console.log(pair[0], pair[1]);
 // }
-
-  AddQuestionAsync(formData,"ea00f834-b619-4070-b10e-f69b7306f3e8")
+  
+  AddQuestionAsync(formData,sourceId)
   
 }
 function ChangeQuestionType(targetValue,target){
