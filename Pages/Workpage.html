@@ -4,17 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/Styles/workPage.css">
-    <script src="/Functionalities/Workpage.js"></script>
+    
     <title>Document</title>
 </head>
 <body>
     <div id="container">
-        <h2 id="theLevel"> </h2>
-        <p id="instruction"> </p>
+        <h2 id="theLevel"> Level 1</h2>
+        <p id="instruction"> "Add all the Numbers displayed in the frame below"</p>
+        <button type="button"id="stopBtn" class="ActionBtn">Stop</button>
         <div id="displayFrame">
-          <p id="displayElement"></p>  
+            <select  id="leveler">
+                <option value="1">Level 1</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
+                <option value="4">Level 4</option>
+                <option value="5">Level 5</option>
+            </select>
+            <p id="displayElement"></p>  
         </div>
-        <button type="button" id="startBtn">Start</button>
+        <button type="button" class="ActionBtn"id="startBtn">Start</button>
+        
     </div>
+    <script src="/Functionalities/Workpage.js"></script>
 </body>
 </html>

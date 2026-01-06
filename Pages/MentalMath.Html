@@ -4,36 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/Styles/MentalMath.css">
-    <script src="/Functionalities/MentalMath.js"></script>
+    
     <title>Document</title>
 </head>
 <body>
-    <div id="container">
-        <div class="level" onclick="Level1()">
-            <h2>Level 1</h2>
-            <p>Add digits between 0-9</p>
+    <section id="container">
+        <div id="sideBar">
+            <div class="sideBarAction" id="speedAction" >Speed Test
+                <div class="levelContainer">
+                    <div class="speedLevel">Level 1</div>
+                    <div class="speedLevel">Level 2</div>
+                    <div class="speedLevel">Level 3</div>
+                    <div class="speedLevel">Level 4</div>
+                    <div class="speedLevel">Level 5</div>
+                </div>
+            </div>
+            <div class="sideBarAction" id="practice">Practice Concepts 
+                <div class="actionContainer">
+                    <div class="practiceAction" onclick="">Percentages</div>
+                    <div class="practiceAction" onclick="">Addition</div>
+                    <div class="practiceAction" onclick="">Multiplication</div>
+                    <div class="practiceAction" onclick=""></div>
+                    <div class="practiceAction" onclick=""></div>
+                </div>
+            </div>
+
+        </div>
+        <div id="mainSection">
+            <h2 id="heading">Explore Concepts</h2>
+            
         </div>
 
-        <div class="level"onclick="Level2()">
-            <h2>Level 2</h2>
-            <p>Add digits between 0-99</p>
-        </div>
-
-        <div class="level"onclick="Level3()">
-            <h2>Level 3</h2>
-            <p>Add digits between 0-99 and multiply with digits between 0-9 </p>
-        </div>
-
-        <div class="level"onclick="Level4()">
-            <h2>Level 4</h2>
-            <p>Add and multiply digits between o-99</p>
-        </div>
-
-        <!-- <div class="level"onclick="Level5()">
-            <p>Level 5</p>
-            <p></p>
-        </div> -->
-
-    </div>
+    </section>
+    <script src="/Functionalities/MentalMath.js"></script>
 </body>
 </html>

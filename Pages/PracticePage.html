@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Styles/PracticePage.css">
+    
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        
+        <h2 id="theLevel">Practice </h2>
+        <button type="button" class="actionBtn" id="stopBtn">Stop</button>
+        <p class="instruction" > practice concepts you have learnt Here </p>
+        <!-- <p class="instruction">The more questions your answer the more difficult they become</p> -->
+        <div id="displayFrame">
+            <select  class="conditioner" id="practiceCategory" >
+                <option value="add&subtract">Add and subtract</option>
+                <option value="percentage">Percentages</option>
+                <option value="multiplication">Multiplication</option>
+                <option value="division">Division</option>
+                <option value=""></option>
+            </select>
+            <!-- the select code block below will be moved to "workpage" to enable the user select the duration of each round  -->
+            
+            <!-- <select  class= "conditioner"id="timer">
+                <option value="5">5 seconds</option>
+                <option value="10">10 seconds</option>
+                <option value="15">15 seconds</option>
+                <option value="20">20 seconds</option>
+            </select> -->
+            <p id="displayElement"></p>  
+        </div>
+        <button type="button" class="actionBtn"id="startBtn">Start</button>
+       
+    </div>
+    <script src="/Functionalities/PracticePage.js"></script>
+</body>
+</html>

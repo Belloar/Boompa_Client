@@ -16,65 +16,66 @@ body{
 }
 #container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    /* border: 5px solid red; */
    
 
 }
 #displayFrame{
+  
     background-color: var(--primary-item-color);
     color: goldenrod;
     font-size: 40px;
-    width: 80%;
+    /* width: 80%; */
     height: 60vh;
     border: 3px solid var(--primary-border-color);
     border-radius: 15px;
     margin: 20px;
+    display: flex;
+
+    flex: 5 5 80%;
+    text-align: center;
+    align-self: center;
 
 }
-.ActionBtn{
+.actionBtn{
+    flex: 1;
     background-color: var(--alt-color);
     color:white;
     font-size: 30px;
-    flex: 1 1 50px;
     width: 150px;
     border: 2px solid var(--primary-border-color);
     border-radius: 10px;
     transition: width 0.3s ease-in, flex-basis 0.3s ease-in;
     
 }
-.ActionBtn:hover{
-width:155px;
-flex-basis: 55px;
-background-color: var(--primary-button-color);
+.actionBtn:hover{
+  
+    width:155px;
+    flex-basis: 55px;
+    background-color: var(--primary-button-color);
 }
 
-#instruction{
+.instruction{
+  flex: 1 1 100%;
   font-size: 30px;
+  text-align: center;
+  /* border: 5px solid red; */
 }
 #theLevel{
+  flex: 2 2 70%;
+  align-self: center;
   font-size: 30px;
-}
-#displayFrame{
-  display: flex;
   text-align: center;
-}
-#displayElement{
- flex: 1 1 80%;  
-  font-size: 150px;
-  
-}
-#leveler{
-  align-self: flex-start;
-  margin: 10px;
-  background-color: var(--primary-border-color);
-  border-radius: 5px;
-}
-#stopBtn{
-  display: none;
+  /* border: 5px solid red; */
 }
 
+#displayElement{
+  font-size: 150px;
+}
 .fade {
   opacity: 0;
   transition: opacity 0.6s ease-in-out;
@@ -83,4 +84,11 @@ background-color: var(--primary-button-color);
 .fade.show {
   opacity: 1;
   
+}
+.conditioner{
+  align-self: start;
+  margin: 10px;
+  background-color: var(--primary-border-color);
+  border-radius: 5px;
+
 }
