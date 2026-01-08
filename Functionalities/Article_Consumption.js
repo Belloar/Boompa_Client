@@ -208,7 +208,7 @@ function ComputeRewards(categoryId){
                 "categoryId":categoryId,
                 "coinCount":Math.round(result),
                 "date":date,
-                "duration": duration.toFixed(3),
+                "duration": Math.round(duration),
                 "ticketCount":2,
     }
     console.log(hermes)
@@ -218,7 +218,7 @@ function ComputeRewards(categoryId){
 
 }
 
-async function DocumentVisit(payload){
+export async function DocumentVisit(payload){
     console.log(sessionStorage.getItem("token"))
     const response = await fetch("https://localhost:57561/api/Learner/UpdateLearnerStats/",{
         method:"PUT",

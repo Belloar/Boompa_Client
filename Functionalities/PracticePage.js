@@ -1,8 +1,12 @@
 let practiceCategory = "add&subtract"
 let trigger = false
 let correct = 0
+let count = 0
 let wrong = 0
 let timeSpent = []
+let requestPayload = {}
+let miscObject = {}
+let durationOfStay = 0
 
 document.getElementById("practiceCategory").addEventListener("change",(ev) => {
     practiceCategory = ev.target.value
@@ -21,6 +25,9 @@ document.getElementById("stopBtn").addEventListener("click",()=>{
     });
     console.log("stopped")
     display.textContent = ""
+})
+document.addEventListener("DOMContentLoaded",() => {
+
 })
 
 function SwitchPractice(){
@@ -58,6 +65,13 @@ async function Percentage(){
             wrong++
         }
     }
+
+    requestPayload.CoinCount = correct*10 
+
+        let total = 0
+        timeSpent.forEach(element => { total+=element })
+        requestPayload.averageTime = total/total.length
+        requestPayload.ticketCount = Math.trunc(count/5)
 }
 
 async function AddAndSubtract(){
@@ -81,6 +95,13 @@ async function AddAndSubtract(){
         }
     }
     
+    requestPayload.CoinCount = correct*10 
+
+        let total = 0
+        timeSpent.forEach(element => { total+=element })
+        requestPayload.averageTime = total/total.length
+
+        requestPayload.ticketCount = Math.trunc(count/5)
 }
 
 function CollectAnswer() {
@@ -102,8 +123,10 @@ function CollectAnswer() {
 
         button.addEventListener("click", () => {
             let stopTime = Date.now()
-            timeSpent.push(stopTime-startTime)
-            console.log((stopTime-startTime)/1000)
+            let time = ((stopTime-startTime)/1000).toFixed(2)
+
+            timeSpent.push(time)
+            console.log(time)
             
             const value = parseFloat(input.value);
 
@@ -151,7 +174,16 @@ async function Multiplication(){
         else{
             wrong++
         }
+        count++
     }
+        requestPayload.CoinCount = correct*10 
+
+        let total = 0
+        timeSpent.forEach(element => { total+=element })
+        requestPayload.averageTime = total/total.length
+        requestPayload.ticketCount = Math.trunc(count/5)
+        requestPayload.categoryId = sessionStorage.getItem("categoryid")
+
 }
 function Delay(){
     duration
@@ -163,6 +195,16 @@ function Rounder(number){
     // let divider = Math.pow(10,Number(noughts))
     
     // return Math.round(number/divider)*divider
+
     // this function will be further developed when i want to implement difficulty
+
     return Math.round(number/10)*10
 }
+
+function ProcessRequestPayload(){
+
+}
+import { DocumentVisit } from "./Article_Consumption" 
+
+
+DocumentVisit()
