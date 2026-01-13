@@ -19,6 +19,7 @@ async function GetMaterials(categoryName){
     })
     let result = await response.json()
     // console.log(result.data) 
+    sessionStorage.setItem("categoryId",result.data[0].categoryId)
     DisplayArticles(result.data)
     }
     catch(err){
