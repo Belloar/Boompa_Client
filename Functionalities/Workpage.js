@@ -44,7 +44,6 @@ function Level1(){
 function Level2(){
     let instruction = document.getElementById("instruction")
     let level = document.getElementById("theLevel")
-    
 
     instruction.textContent = "Add all the Numbers displayed in the frame below"
     level.textContent = "Level 2"
@@ -240,10 +239,10 @@ async function Display(numbers,level){
         return answer
 }
 
-function DigitGenerator(arraySize,maxNum){
+export function DigitGenerator(arraySize,maxNum){
     let result = []
     for(i = 0; i<arraySize;i++){
-        let digit = Math.ceil(Math.random() *maxNum)
+        let digit = Math.floor(Math.random() *maxNum)
         result.push(digit)
     }
     return result

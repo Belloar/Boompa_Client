@@ -65,13 +65,8 @@ async function Percentage(){
             wrong++
         }
     }
-
-    requestPayload.CoinCount = correct*10 
-
-        let total = 0
-        timeSpent.forEach(element => { total+=element })
-        requestPayload.averageTime = total/total.length
-        requestPayload.ticketCount = Math.trunc(count/5)
+        ProcessRequestPayload(correct)
+    
 }
 
 async function AddAndSubtract(){
@@ -95,13 +90,7 @@ async function AddAndSubtract(){
         }
     }
     
-    requestPayload.CoinCount = correct*10 
-
-        let total = 0
-        timeSpent.forEach(element => { total+=element })
-        requestPayload.averageTime = total/total.length
-
-        requestPayload.ticketCount = Math.trunc(count/5)
+    ProcessRequestPayload(correct)
 }
 
 function CollectAnswer() {
@@ -176,14 +165,7 @@ async function Multiplication(){
         }
         count++
     }
-        requestPayload.CoinCount = correct*10 
-
-        let total = 0
-        timeSpent.forEach(element => { total+=element })
-        requestPayload.averageTime = total/total.length
-        requestPayload.ticketCount = Math.trunc(count/5)
-        requestPayload.categoryId = sessionStorage.getItem("categoryid")
-
+        ProcessRequestPayload(correct)
 }
 function Delay(){
     duration
@@ -201,10 +183,24 @@ function Rounder(number){
     return Math.round(number/10)*10
 }
 
-function ProcessRequestPayload(){
+function ProcessRequestPayload(correct){
+    requestPayload.CoinCount = correct*10 
 
+    let total = 0
+    timeSpent.forEach(element => { total+=element })
+    requestPayload.averageTime = total/total.length
+    requestPayload.ticketCount = Math.trunc(count/5)
+    requestPayload.categoryId = sessionStorage.getItem("categoryid")
+
+    count = 0
+    correct=0
+    timeSpent = []
+
+    DocumentVisit(requestPayload)
 }
-import { DocumentVisit } from "./Article_Consumption" 
+
+async function DocumentVisit(payload){
+    
+}
 
 
-DocumentVisit()
