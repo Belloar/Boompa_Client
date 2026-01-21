@@ -239,7 +239,7 @@ async function Display(numbers,level){
         return answer
 }
 
-export function DigitGenerator(arraySize,maxNum){
+function DigitGenerator(arraySize,maxNum){
     let result = []
     for(i = 0; i<arraySize;i++){
         let digit = Math.floor(Math.random() *maxNum)
@@ -271,7 +271,6 @@ function ComputeRewards(){
 async function DocumentVisit(){
     
 }
-
 
 
 

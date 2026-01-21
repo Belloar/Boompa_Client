@@ -62,7 +62,7 @@ background-color: var(--primary-button-color);
 }
 #displayElement{
  flex: 1 1 80%;  
-  font-size: 150px;
+  font-size: 75px;
   
 }
 #leveler{
