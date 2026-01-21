@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/Styles/Admin/Content_Creation.css">
-    <script src="/Functionalities/Admin/Content_Management.js"></script>
     <title>Content_Creation</title>
     <!-- <nav id="base-nav">
         <a href="">Dashboard</a>
@@ -18,24 +17,36 @@
     <div id="container">
         
         <form id="material-collection">
-            <h1>Create Content</h1><br>
-            <label for="SourceMaterialName">Material Name</label>
-            <input class = "text-field"type="text" name="sourceMaterialName"id="SourceMaterialName"required >
-            
-            <label for="Category">Category</label>
-            <input class = "text-field" type="text" name="category"id="Category" required >
+            <h2 class="flex-item" id="heading">Add New Content</h2><br>
 
-            <label for="Description">Description</label>
-            <input class = "text-field"type="text" name = "Description"id="Description" required ><br>
+            <label class="flex-item text-label"for="SourceMaterialName">Material Name
+                <br><input class = "text-field"type="text" name="sourceMaterialName"id="SourceMaterialName"required >
+            </label>
 
-            <label for="Text">Content</label>
-            <textarea class = "text-field" name="TextContent" id="Text" placeholder="Your Article goes here"></textarea><br>
+            <label class="flex-item text-label"for="Category">Category
+                <br><input class = "text-field " type="text" name="category"id="Category" required >
+            </label>
 
-            <input type="file" name="RawFiles" multiple ><br>
+            <label class="flex-item "for="Description">Description
+                 <br><input class = "text-field"type="text" name = "Description"id="Description" required >
+            </label>
+           
+            <fieldset id = content-field>
+                <legend>Content</legend><br>
+                <label data-index="1" for="text1" id="content-label" style="display: block;">
+                    <br><input type="file" multiple>
+                    <br><textarea class = "text-field" name="TextContent" id="text1" placeholder="Your Article goes here" rows="10" cols="80" maxlength="500"></textarea>
+                    <br><p id="p-counter"><span id="counter">0</span>/500</p>
+                </label>
                 
-            <input type="button" value="Submit" onclick="Main()">
+            </fieldset>
+            
+            <input  class="" type="button" value="Submit" id="submitBtn">
+            <button class="form-btn" id="add-btn" type="button">Add </button>
             
         </form>
     </div>
+    
+    <script src="/Functionalities/Admin/Content_Management.js"></script>
 </body>
 </html>

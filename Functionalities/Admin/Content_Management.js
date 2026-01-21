@@ -1,9 +1,21 @@
 var sourceId = null
+let counter = 1
+
+document.getElementById("submitBtn").addEventListener("click",() =>{ Main()})
+
+document.getElementById("text1").addEventListener("input",(ev)=>{
+    document.getElementById("counter").textContent = ev.target.value.length
+})
+
+document.getElementById("add-btn").addEventListener("click",() => {
+    ContentTemplate()
+})
+
 async function Main(){
 
     // get the html form and convert it to form data 
-   const form =  document.querySelector("#material-collection")
-    const formData = new FormData(form)
+    const form =  document.querySelector("#material-collection")
+    const formData = ProcessSourceMaterialData(form)
 
     //send the source material to the database
     sourceId = await AddSourceMaterial(formData)
@@ -298,6 +310,52 @@ const wrapper = target.parentNode
             // wrapper.parentNode.dataset.questionType = "default"
             break;
     }
+}
+
+function ContentTemplate(){
+    counter++
+    let fieldset = document.getElementById("content-field")
+    let label = document.createElement("label")
+    let textArea = document.createElement("textarea")
+    let p = document.createElement("p")
+    let counterSpan = document.createElement("span")
+    let constantSpan = document.createElement("span")
+    let fileInput = document.createElement("input")
+    let removeBtn = document.createElement("button")
+    let br = document.createElement("br")
+    label.dataset.index = counter
+    label.htmlFor = `text${counter}`
+
+    fileInput.type = "file"
+    fileInput.multiple = true
+
+    textArea.maxLength = 500
+    textArea.rows = 8
+    textArea.cols = 80
+    textArea.placeholder = "continue your article here"
+    textArea.addEventListener("input", (ev)=> {
+        counterSpan.textContent = ev.target.value.length
+    })
+
+    constantSpan.textContent = "/500"
+
+    counterSpan.textContent = "0"
+
+    removeBtn.textContent = "Remove"
+    removeBtn.addEventListener("click", ()=>{
+        label.remove()
+    })
+
+    p.append(counterSpan,constantSpan)
+    label.append(fileInput,br,textArea,p,removeBtn)
+
+    fieldset.appendChild(label)
+}
+
+function ProcessSourceMaterialData(form){
+    const formData = new FormData()
+
+    return formData
 }
 
 function PointsOfImprovement(){
