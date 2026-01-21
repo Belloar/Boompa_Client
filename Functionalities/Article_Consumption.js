@@ -218,7 +218,7 @@ function ComputeRewards(categoryId){
 
 }
 
-export async function DocumentVisit(payload){
+ async function DocumentVisit(payload){
     console.log(sessionStorage.getItem("token"))
     const response = await fetch("https://localhost:57561/api/Learner/UpdateLearnerStats/",{
         method:"PUT",

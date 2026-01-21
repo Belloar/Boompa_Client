@@ -18,16 +18,26 @@
     let searchString = formData.get("username");
     let password = formData.get("password");
 
-    let response = await fetch(`https://localhost:57561/api/Identity/UserLogin/`,
-            {
+    let requestBody = {
                 method:'GET',
                 headers:{
                     "Content-Type":"Application/json",
                     "username":`${searchString}`,
-                    "password":`${password}`
+                    "password":`${password}`,
+
                 }
             
-            })
+            }
+
+            if(IsAdmin){
+                requestBody.headers.page = "Admin" 
+            }
+            else{
+                requestBody.headers.page="Learner"
+            }
+
+    let response = await fetch(`https://localhost:57561/api/Identity/UserLogin/`,requestBody)
+
             if(response.ok){
                 const result = await response.json();
                 sessionStorage.setItem("token",result.data);
