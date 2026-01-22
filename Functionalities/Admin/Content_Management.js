@@ -1,9 +1,21 @@
 var sourceId = null
+let counter = 1
+
+document.getElementById("submitBtn").addEventListener("click",() =>{ Main()})
+
+document.getElementById("text1").addEventListener("input",(ev)=>{
+    document.getElementById("counter").textContent = ev.target.value.length
+})
+
+document.getElementById("add-btn").addEventListener("click",() => {
+    ContentTemplate()
+})
+
 async function Main(){
 
     // get the html form and convert it to form data 
-   const form =  document.querySelector("#material-collection")
-    const formData = new FormData(form)
+    const form =  document.querySelector("#material-collection")
+    const formData = ProcessSourceMaterialData(form)
 
     //send the source material to the database
     sourceId = await AddSourceMaterial(formData)
@@ -235,7 +247,6 @@ const wrappers = Array.from(form.querySelectorAll(".wrapper"));
             const opt2 =  Array.from(w.querySelectorAll('[name="option"]')).map(i => i.value.trim())
             const options2 = opt2.join("|")
             
-            
             formData.append(`questions[${i}].FileDescription`, description2);
             formData.append(`questions[${i}].Answer`, answer2);
             formData.append(`questions[${i}].Option`, options2);
@@ -298,6 +309,80 @@ const wrapper = target.parentNode
             // wrapper.parentNode.dataset.questionType = "default"
             break;
     }
+}
+
+function ContentTemplate(){
+    counter++
+    let fieldset = document.getElementById("content-field")
+    let label = document.createElement("label")
+    let textArea = document.createElement("textarea")
+    let p = document.createElement("p")
+    let counterSpan = document.createElement("span")
+    let constantSpan = document.createElement("span")
+    let fileInput = document.createElement("input")
+    let removeBtn = document.createElement("button")
+    let br = document.createElement("br")
+    label.dataset.index = counter
+    label.htmlFor = `text${counter}`
+
+    fileInput.type = "file"
+    fileInput.multiple = true
+    fileInput.classList.add("file-content")
+
+    textArea.maxLength = 500
+    textArea.rows = 8
+    textArea.cols = 80
+    textArea.placeholder = "continue your article here"
+    textArea.classList.add("text-content")
+    textArea.addEventListener("input", (ev)=> {
+        counterSpan.textContent = ev.target.value.length
+    })
+
+    constantSpan.textContent = "/500"
+
+    counterSpan.textContent = "0"
+
+    removeBtn.textContent = "Remove"
+    removeBtn.addEventListener("click", ()=>{
+        label.remove()
+    })
+
+    p.append(counterSpan,constantSpan)
+    label.append(fileInput,br,textArea,p,removeBtn)
+
+    fieldset.appendChild(label)
+}
+
+function ProcessSourceMaterialData(form){
+    let article = ""
+    let textArr = []
+    const formData = new FormData()
+
+    // append the material name and category to the form data
+    formData.append("sourceMaterialName",form["SourceMaterialName"].value)
+    formData.append("category",form["Category"].value)
+
+    // get the nodelist containing the content of the article
+    let contentBody = form.querySelector("fieldset")
+    let content = contentBody.querySelectorAll("label")
+
+    // collect text content into a single array and add the corresponding files to 
+    content.forEach((c,i) => {
+        let text = c.querySelector(".text-content").value
+        textArr.push(text)
+
+        let files = c.querySelector(".file-content").files
+        for(let file in files){
+            formData.append(`file${i}`,file)
+        }
+    })
+    // join to make a single string separated by a character
+    article = textArr.join("||")
+
+    // append article to formdata
+    formData.append("textContent",article)
+
+    return formData
 }
 
 function PointsOfImprovement(){
