@@ -228,11 +228,11 @@ async function AddQuestionAsync(questionData,sourceId){
 
 }
 
-
 function AppendQuestions(sourceFormData,evalFormData){
     // this function is meant to work for when i try to send both sourcematerial and questions together in one request
 
 }
+
 function ProcessData(form){
 const wrappers = Array.from(form.querySelectorAll(".wrapper"));
   const formData = new FormData();
@@ -279,6 +279,7 @@ const wrappers = Array.from(form.querySelectorAll(".wrapper"));
   AddQuestionAsync(formData,sourceId)
   
 }
+
 function ChangeQuestionType(targetValue,target){
 const wrapper = target.parentNode
     switch (targetValue) {
@@ -361,6 +362,7 @@ function ProcessSourceMaterialData(form){
     // append the material name and category to the form data
     formData.append("sourceMaterialName",form["SourceMaterialName"].value)
     formData.append("category",form["Category"].value)
+    formData.append("description",form["Description"])
 
     // get the nodelist containing the content of the article
     let contentBody = form.querySelector("fieldset")
@@ -372,8 +374,10 @@ function ProcessSourceMaterialData(form){
         textArr.push(text)
 
         let files = c.querySelector(".file-content").files
-        for(let file in files){
-            formData.append(`file${i}`,file)
+        for(let file of files){
+
+            formData.append(`RawFiles[${i}].file`,file)
+            formData.append(`RawFiles[${i}].Index`,String(i))
         }
     })
     // join to make a single string separated by a character
@@ -382,6 +386,10 @@ function ProcessSourceMaterialData(form){
     // append article to formdata
     formData.append("textContent",article)
 
+    // formData.forEach((value,key) => {
+    //     console.log(`value:${value},key:${key}`)
+    // }) 
+    console.log(formData.entries())
     return formData
 }
 

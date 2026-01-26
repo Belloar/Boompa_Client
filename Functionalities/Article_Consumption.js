@@ -1,6 +1,85 @@
+let questions 
+let counter = 0
+let content 
+let sourceFiles
+
 document.addEventListener("onload",Main())
+document.getElementById("quiz-btn").addEventListener("click",() => {
+    sessionStorage.setItem("questions", questions)
+    window.location.assign("/pages/assessment")
+})
+
+document.getElementById("previous-btn").addEventListener("click",() => {
+    
+    if(counter>0){
+        // reduce the counter value to that of the previous page
+        counter--
+        // get the target node for the operation
+        let target = document.querySelector(".text-content")
+
+        // reset its content to nothing
+        target.innerHTML = ""
+        
+        // filter for the files that correspond to the page
+        let pagefiles = []
+        sourceFiles.forEach(file => {
+            if(file.index==counter){
+                pagefiles.push(file.fileURL)
+            }
+        })
+        // append images to the page
+        pagefiles.forEach(pagefile => {
+            let img = document.createElement("img")
+            img.src = pagefile
+            img.classList.add("content-item")
+            img.style.width= "500px"
+            img.style.height = "500px"
+            target.appendChild(img)
+        })
+
+        // append text content to the page
+        let p = document.createElement("p")
+        p.classList.add("content-item")
+        p.textContent = content[counter]
+        target.appendChild(p)
+    
+    
+    }
+})
 
 
+document.getElementById("next-btn").addEventListener("click",() => {
+    
+    if(counter<content.length){
+        // increment the value of the counter
+        counter++
+
+        // get the target node of the operation
+        let target = document.querySelector(".text-content")
+        target.innerHTML = ""
+        
+        // filter for the files that correspond to the page
+        let pagefiles = []
+        sourceFiles.forEach(file => {
+                if(file.index==counter){
+                    pagefiles.push(file.fileURL)
+                }
+            })
+        
+        // append the images to the page
+        pagefiles.forEach(pagefile => {
+            let img = document.createElement("img")
+            img.src = pagefile
+            target.appendChild(img)
+        })
+
+        // append text content to the page
+        let p = document.createElement("p")
+        p.textContent = content[counter]
+
+        target.appendChild(p)
+    }
+})
 
 function Main(){
 //get the content to be displayed from the database
@@ -22,7 +101,7 @@ async function GetSourceMaterial(categoryName,sourceId){
    RenderContent(result.data)
 
    }catch(err){
-
+        console.log(err)
         alert("error"+err)
    }
 }
@@ -36,19 +115,36 @@ function RenderContent(payload){
     h2.textContent = payload.materialName
     displayFrame.appendChild(h2)
     
+    content = payload.textContent.split("||")
     // appends the content
+    let wrapper = document.createElement("p")
+    wrapper.classList.add("text-content")
+    
+    
     let p = document.createElement("p")
-    p.textContent = payload.textContent
-    displayFrame.appendChild(p)
-
-    payload.sourceFiles.forEach(fileUrl => {
-        let image = document.createElement("img")
-        image.src = fileUrl
-        image.classList.add("sourceFile")
+    p.textContent = content[0]
+    sourceFiles = payload.sourceFiles
+    let pagefiles = []
+    sourceFiles.forEach(file => {
+        if(file.index==counter){
+            pagefiles.push(file.fileURL)
+        }
     })
 
-    // handles the display of the questions
-    DisplayQuestions(payload.questions,payload.categoryId)
+    pagefiles.forEach(pagefile => {
+        let img = document.createElement("img")
+        img.src = pagefile
+        img.style.width= "500px"
+        img.style.height = "500px"
+        wrapper.appendChild(img)
+    })
+    wrapper.appendChild(p)
+    displayFrame.appendChild(wrapper)
+
+
+    // // handles the display of the questions
+    // questions = payload.questions
+    // DisplayQuestions(payload.questions,payload.categoryId)
     
 }
 
