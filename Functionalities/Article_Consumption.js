@@ -4,9 +4,10 @@ let content
 let sourceFiles
 
 document.addEventListener("onload",Main())
+
 document.getElementById("quiz-btn").addEventListener("click",() => {
-    sessionStorage.setItem("questions", questions)
-    window.location.assign("/pages/assessment")
+    // sessionStorage.setItem("questions", JSON.stringify(questions))
+    window.location.assign("/pages/Assessment.html")
 })
 
 document.getElementById("previous-btn").addEventListener("click",() => {
@@ -46,7 +47,6 @@ document.getElementById("previous-btn").addEventListener("click",() => {
     
     }
 })
-
 
 document.getElementById("next-btn").addEventListener("click",() => {
     
@@ -97,8 +97,11 @@ async function GetSourceMaterial(categoryName,sourceId){
         }
     })
     const result = await response.json();
-    
-   RenderContent(result.data)
+
+    sessionStorage.setItem("categoryId",result.data.categoryId)
+    // sessionStorage.setItem("questions",result.data.questions)
+
+    RenderContent(result.data)
 
    }catch(err){
         console.log(err)
@@ -116,6 +119,11 @@ function RenderContent(payload){
     displayFrame.appendChild(h2)
     
     content = payload.textContent.split("||")
+
+    if(content.length<=1){
+        document.getElementById("previous-btn").style.display = "none"
+        document.getElementById("next-btn").style.display = "none"
+    }
     // appends the content
     let wrapper = document.createElement("p")
     wrapper.classList.add("text-content")
@@ -123,6 +131,7 @@ function RenderContent(payload){
     
     let p = document.createElement("p")
     p.textContent = content[0]
+
     sourceFiles = payload.sourceFiles
     let pagefiles = []
     sourceFiles.forEach(file => {
@@ -144,6 +153,7 @@ function RenderContent(payload){
 
     // // handles the display of the questions
     // questions = payload.questions
+    localStorage.setItem("questions", JSON.stringify(payload.questions))
     // DisplayQuestions(payload.questions,payload.categoryId)
     
 }
@@ -269,68 +279,6 @@ function RefineOptions(options,answer,number){
 
     return result
 }
-
-
-function ComputeRewards(categoryId){
-    //processing the duration of the lesson
-    let startTime = sessionStorage.getItem("startTime")
-    let endTime =  Date.now()
-    let duration = (endTime-startTime)/(1000*60)
-    
-    //marking the users answers
-    let correct = 0
-    let wrong = 0
-    let totalQuestions = 0
-    const form = document.querySelector("#evaluationForm")
-    const questions = form.querySelectorAll(".question")
-    
-    
-    questions.forEach(question => {
-        totalQuestions++
-        let answer = question.querySelector("input[id = 'answer']:checked")
-        if(answer){
-            correct+=1
-        }
-        else{
-            wrong+=1
-        }
-    })
-
-    let result = (correct/totalQuestions)*100
-    let date = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate() > 9 ? new Date().getDate() : "0"+new Date().getDate()}`
-    
-    //request payload
-    let hermes ={
-                "categoryId":categoryId,
-                "coinCount":Math.round(result),
-                "date":date,
-                "duration": Math.round(duration),
-                "ticketCount":2,
-    }
-    console.log(hermes)
-    sessionStorage.removeItem("startTime")
-    alert(`Performance${result}%`)
-    DocumentVisit(hermes)
-
-}
-
- async function DocumentVisit(payload){
-    console.log(sessionStorage.getItem("token"))
-    const response = await fetch("https://localhost:57561/api/Learner/UpdateLearnerStats/",{
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json",
-            "Authorization":`Bearer ${sessionStorage.getItem("token")}`
-        },
-        body:JSON.stringify(payload)
-
-    })
-    let result = await response.json()
-    console.log(result)
-    alert(result.data)
-}
-
-
 
 /////////////////////////////////////
 /////Point of Improvement///////////
