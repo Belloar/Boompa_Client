@@ -32,7 +32,8 @@ input{
 }
 
 .flex-form{
-    
+    display: flex;
+    flex-direction: column;
     border: 5px solid rgb(173, 211, 244);;
     border-radius: 25px;
     box-shadow: 4px 4px var(whitesmoke);
