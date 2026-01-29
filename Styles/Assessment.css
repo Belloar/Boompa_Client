@@ -13,6 +13,8 @@
 } 
 body{
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     background-color:var(--primary-bg-color) ;
 } 
 .container{
@@ -22,15 +24,30 @@ body{
     align-items: center;
     width: 90%;
     min-height: 70vh;
-    border: 3px solid red;
+    /* border: 3px solid red; */
     font-size: 30px;
 }
 #display{
     flex: 1 1 100%;
     display: flex;
-    min-width: 70%;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    min-height: 40vh;
     background-color: var(--primary-item-color);
     border: 3px solid var(--primary-border-color);
     border-radius: 10px;
+    font-size: 40px;
 
+}
+.func-btn{
+    width: 200px;
+    height: 40px;
+    background-color: var(--primary-button-color);
+    border: 2px solid var(--primary-border-color);
+    border-radius: 10px;
+    margin: 10px;
+}
+.func-btn:hover{
+    background-color: var(--primary-item-color);
 }
