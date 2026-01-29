@@ -150,10 +150,10 @@ function RenderContent(payload){
     wrapper.appendChild(p)
     displayFrame.appendChild(wrapper)
 
-
+let startTime = Date.now()
     // // handles the display of the questions
-    // questions = payload.questions
     localStorage.setItem("questions", JSON.stringify(payload.questions))
+    sessionStorage.setItem("startTime",startTime)
     // DisplayQuestions(payload.questions,payload.categoryId)
     
 }
