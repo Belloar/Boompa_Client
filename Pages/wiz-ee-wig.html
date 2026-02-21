@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/Styles/wiz-ee-wig.css">
+    <script src="https://cdn.tiny.cloud/1/wdyry3qbux5u3niay5yxl5k49oolpkstcnc3pvi54ryvnqik/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+    <title>wiz-ee-wig</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <form id="content-template">
+        <h2 class="flex-item" id="heading">Create New Content</h2>
+
+        <label class="flex-item text-label" for="SourceMaterialName">Material Name
+          <br><input class="text-field" type="text" name="sourceMaterialName" id="SourceMaterialName" required>
+        </label>
+
+        <label class="flex-item text-label" for="Category">Category
+          <br><input class="text-field" type="text" name="category" id="Category" required>
+        </label>
+
+        <label class="flex-item" for="Description">Description
+          <br><input class="text-field" type="text" name="Description" id="Description" required>
+        </label>
+
+        <fieldset id="content-field">
+          <legend>Content</legend>
+          <label for="mytextarea" id="content-label" style="display: block;">
+            <textarea class="text-field text-content" id="mytextarea" name="TextContent" placeholder="Your Article goes here" rows="10" cols="80">Hello, World!</textarea>
+          </label>
+        </fieldset>
+
+        <input id="submitBtn" name="submitbtn" type="submit" value="Submit">
+      </form>
+    </div>
+    
+    <script src="/Functionalities/wiz-ee-wig.js"></script>
+  </body>
+</html>

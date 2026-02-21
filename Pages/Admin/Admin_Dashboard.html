@@ -3,25 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
     <link rel="stylesheet" href="/Styles/Admin/Admin_Dashboard.css">
     <title>Document</title>
 </head>
 <body>
-    <nav id="base-nav">
-        <!-- <a href="Content_Management.html" class="nav-link">Content Management</a> -->
-        <a href="User_Management.html" class="nav-link">User Management</a>
-        <!-- <a href="" class="nav-link">Activity Monitor</a> -->
-        <!-- <a href="" class="nav-link">Challenge Management</a> -->
+    <section id="container" class="">
+        
+    <!-- <nav id="nav-section">
+        <a href="Content_Management.html" class="nav-link">Content Management</a>
+        <div id="create-btn" class="nav-link">Get Learners    </div>
+        <a href="Content_Creation.html" class="nav-link">Create Content</a>
+        <a href="" class="nav-link">View User History</a>
+        <a href="" class="nav-link">Activity Monitor</a>
+        <a href="" class="nav-link">Challenge Management</a>
         <a href="" class="nav-link"></a>
-       </nav> 
-    <div id="container">
-       
-       <h3>Quick Links</h3>
-       <a href="Content_Creation.html" class="flex-item">Create Content</a>
-       <a href="" class="flex-item">View User History</a>
-       <a href="" class="flex-item"></a>
-       <a href="" class="flex-item"></a>
-       <a href="" class="flex-item"></a>
+    </nav> -->
+    <div id="main-section" class="">
+        <canvas id="chart1" class="display-chart"></canvas>
+        <canvas id="chart2" class="display-chart"></canvas>
+        <canvas id="chart3" class="display-chart"></canvas>
+        <canvas id="chart4" class="display-chart"></canvas>
+        <canvas id="chart5" class="display-chart"></canvas>
     </div>
+    </section>
+    <script src="/Functionalities/Admin/Admin_Dashboard.js"></script>
 </body>
 </html>

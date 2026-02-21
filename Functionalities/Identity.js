@@ -7,12 +7,13 @@
 
 
  async function Login(IsAdmin){
-    
     const form = document.getElementById("login-form");
+
     if(!form){
         alert("form not received")
         window.location.reload();
     }
+    
     const formData = new FormData(form);
 
     let searchString = formData.get("username");
@@ -24,9 +25,7 @@
                     "Content-Type":"Application/json",
                     "username":`${searchString}`,
                     "password":`${password}`,
-
                 }
-            
             }
 
             if(IsAdmin){
@@ -37,9 +36,8 @@
             }
 
     let response = await fetch(`https://localhost:57561/api/Identity/UserLogin/`,requestBody)
-
-            if(response.ok){
-                const result = await response.json();
+            let result = await response.json()  
+            if(result.statusCode == 200){
                 sessionStorage.setItem("token",result.data);
 
                 console.log(result.data)
@@ -48,12 +46,10 @@
                 }
                 else{
                     window.location.assign("/Pages/Dashboard.html")
-                    
                 }
-                
             }
             else{
-                alert("Error:"+response.status)
+                alert("Error:"+result.statusMessages)
             }
     
 
@@ -62,7 +58,7 @@
 function Redirect(IsAdmin){
     
     if(IsAdmin == true){
-        window.location.assign("Admin_Dashboard.html")
+        window.location.assign("/Pages/wiz-ee-wig.html")
     }
 }
 async function Register(event){

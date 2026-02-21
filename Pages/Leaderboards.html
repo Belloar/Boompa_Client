@@ -2,10 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboards</title>
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="/Styles/Leaderboards.css">
 </head>
 <body>
-    
+
+    <div class="leaderboard-container">
+        <h1>🏆 Leaderboard</h1>
+
+        <table id="leaderboard">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Username</th>
+                    <th>S/Pa</th>
+                    <th>Number of Rounds</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+                <!-- Rows will be injected here -->
+            </tbody>
+        </table>
+
+        <p id="loading">Loading leaderboard...</p>
+        <p id="error" class="error"></p>
+    </div>
+
+    <script src="/Functionalities/Leaderboards.js"></script>
 </body>
 </html>
