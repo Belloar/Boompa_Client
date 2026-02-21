@@ -1,4 +1,5 @@
 // let count = 0 
+let categoryId
 let contestType = null
 let flag = false
 let timeSpent = []
@@ -7,6 +8,7 @@ let wrong = 0
 
 document.addEventListener("DOMContentLoaded",() => {
     contestType = sessionStorage.getItem("contestType")
+    categoryId = sessionStorage.getItem("categoryId")
     console.log(contestType)
 })
 document.getElementById("startBtn").addEventListener("click",() => {
@@ -25,11 +27,8 @@ document.getElementById("startBtn").addEventListener("click",() => {
     }
 })
 async function MentalMathContest(rounds){
-    
-    
     let count = 0
     let content = 0
-    
 
     while(count<3){
         let rand = Math.floor(Math.random()*3)
@@ -37,44 +36,42 @@ async function MentalMathContest(rounds){
             case 0:
                 document.getElementById("displayElement").textContent = ""
                 content = Percentage()
-                
-                await Process(content)
+                await Display(content)
                 break;
             case 1:
                 document.getElementById("displayElement").textContent = ""
                 content = Addition()
-
-                await Process(content)
+                await Display(content)
                 break;
             case 2:
                 document.getElementById("displayElement").textContent = ""
                 content = Subtraction()
-
-                await Process(content)
+                await Display(content)
                 break;
             case 3:
                 document.getElementById("displayElement").textContent = ""
                 content = Multiplication()
-
-                await Process(content)
+                await Display(content)
                 break;
             default:
                 document.getElementById("displayElement").textContent = ""
                 content = Addition()
-
-                await Process(content)
+                await Display(content)
                 break;
         }
         count++
     }
     console.log("C: "+correct+" W: "+wrong)
+    ComputeRewards("Mental Math")
 }
 
 function BlitzContest(){
 
 }
 
-function HistoryContest(){}
+function HistoryContest(){
+
+}
 function ScienceContest(){}
 function MathPuzzleContest(){}
 
@@ -203,7 +200,7 @@ function Rounder(number){
 
     return Math.round(number/10)*10
 }
-async function Process(rawContent){
+async function Display(rawContent){
     document.getElementById("displayElement").textContent = rawContent.expression
 
     let answer = await CollectAnswer()
@@ -218,3 +215,94 @@ async function Process(rawContent){
 async function GetQuestions(){
     
 }
+
+function ComputeRewards(categoryName){
+    //processing the duration of the lesson
+    let startTime = sessionStorage.getItem("startTime")
+    let endTime =  Date.now()
+    let duration = (endTime-startTime)/(1000*60)
+    let result = (correct/timeSpent.length)*100
+    let date = `${new Date().getFullYear()}-${new Date().getMonth() < 9 ? `0${new Date().getDate()}` : new Date().getDate() }-${new Date().getDate() > 9 ? new Date().getDate() : "0"+new Date().getDate()}`
+    
+    let totalTime = 0
+    timeSpent.forEach(stamp => {
+        totalTime+=stamp;
+    })
+    let averageTime = (totalTime/timeSpent.length)/1000
+
+    let d = new Date()
+    let lastModifiedOn = d.toISOString()
+    // visit documentation request payload
+    let visitPayload ={
+        "categoryName":categoryName,
+        "coinCount":Math.round(result),
+        "date":date,
+        "duration": Math.round(duration),
+        "ticketCount":2,
+    }
+    // Contest record request payload
+    let recordPayload = {
+        "categoryName":categoryName,
+        "date":date,
+        "lastModifiedOn": lastModifiedOn,
+        "expEarned":Math.round(result),
+        "numberOfRounds": timeSpent.length,
+        "speedAccuracyRatio": `${averageTime}/${correct}`,
+    }
+    // console.log(visitPayload)
+    // sessionStorage.removeItem("startTime")
+    // alert(`Performance${result}%`)
+    // DocumentVisit(visitPayload)
+    console.log(categoryId)
+    DocumentChallenge(recordPayload)
+
+
+}
+async function DocumentChallenge(payload){
+    try {
+    let request = await fetch("https://localhost:57561/api/Contest/AddRecord",{
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+        },
+        body:JSON.stringify(payload)
+        
+    })
+
+    let response = await request.json()
+    console.log(response)
+    } 
+    catch (error) {
+        console.log(`error: "${error}"`)
+    }
+    
+}
+
+async function DocumentVisit(payload){
+    console.log(sessionStorage.getItem("token"))
+    const response = await fetch("https://localhost:57561/api/Learner/UpdateLearnerStats/",{
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${sessionStorage.getItem("token")}`
+        },
+        body:JSON.stringify(payload)
+
+    })
+    let result = await response.json()
+    console.log(result)
+    alert(result.data)
+}
+
+
+
+
+
+
+
+
+
+
+// Difficulty has not been included yet
+

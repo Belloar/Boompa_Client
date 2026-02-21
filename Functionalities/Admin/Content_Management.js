@@ -1,6 +1,11 @@
 var sourceId = null
 let counter = 1
 
+let questionCount = 0;
+
+document.addEventListener("DOMContentLoaded",() => {
+    AdminNavigation()
+})
 document.getElementById("submitBtn").addEventListener("click",() =>{ Main()})
 
 document.getElementById("text1").addEventListener("input",(ev)=>{
@@ -74,7 +79,6 @@ async function ReviewContent(){}
 
 async function AddChallenges(){}
 
-let questionCount = 0;
 function AddQuestion(){
     //creates the information to be displayed to the admin
     let heading = document.createElement("h2")
@@ -391,6 +395,51 @@ function ProcessSourceMaterialData(form){
     // }) 
     console.log(formData.entries())
     return formData
+}
+
+
+function AdminNavigation(){
+  let content = `
+  <nav class="admin-nav">
+    <ul class="admin-nav-list">
+      <li class="admin-nav-item"><a href="/Pages/wiz-ee-wig.html">Create Content(WYSIWYG) </a></li>
+      <li class="admin-nav-item"><a href="/Pages/Admin/Content_Creation.html">Create Content(Casual) </a></li>
+      <li class="admin-nav-item"><a href="/Pages/Admin/DisplayUsers.html">Get Learners</a></li>
+    </ul>
+  </nav>
+
+  <style>
+    .admin-nav{
+      max-width: 20%;
+      background-color: #1a3e5e;
+    }
+
+    .admin-nav-list{
+      display: flex;
+      flex: 1;
+      justify-content: flex-start;
+      flex-direction: column;
+      list-style: none;
+    }
+
+    .admin-nav-item{
+      margin: 5px;
+      padding: 10px;
+    }
+
+      .admin-nav-item:hover{
+        background-color: var(--primary-button-color);
+        border-radius: 10px;
+      }
+
+    a{
+      text-decoration: none;
+      color: white;
+      font-size: 25px;
+    }
+  </style>
+  `
+  document.body.insertAdjacentHTML("afterbegin",content)
 }
 
 function PointsOfImprovement(){

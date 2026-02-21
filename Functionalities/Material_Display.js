@@ -63,5 +63,6 @@ function Redirect(categoryName,sourceId){
     localStorage.setItem("categoryName",categoryName)
     localStorage.setItem("sourceId",sourceId)
     
-    window.location.assign("/pages/Article_Consumption.html")
+    // window.location.assign("/pages/Article_Consumption.html")
+    window.location.assign("/pages/TinyArticleConsumption.html")
 }

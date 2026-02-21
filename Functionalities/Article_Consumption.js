@@ -157,6 +157,51 @@ let startTime = Date.now()
     // DisplayQuestions(payload.questions,payload.categoryId)
     
 }
+function RenderContentTest(payload){
+    //gets the node the content will be displayed
+    const displayFrame = document.getElementById("content-frame")
+
+    // appends the content title
+    const titleHtml = `
+        <h2>${payload.materialName}</h2>
+    `
+    displayFrame.insertAdjacentHTML("beforeend", titleHtml)
+    
+    content = payload.textContent.split("||")
+
+    if(content.length<=1){
+        document.getElementById("previous-btn").style.display = "none"
+        document.getElementById("next-btn").style.display = "none"
+    }
+    
+    sourceFiles = payload.sourceFiles
+    let pagefiles = []
+    sourceFiles.forEach(file => {
+        if(file.index==counter){
+            pagefiles.push(file.fileURL)
+        }
+    })
+
+    const imagesHtml = pagefiles
+        .map(pagefile => `
+            <img src="${pagefile}" style="width: 500px; height: 500px;">
+        `)
+        .join("")
+    const wrapperHtml = `
+        <div class="text-content">
+            ${imagesHtml}
+            <p>${content[0]}</p>
+        </div>
+    `
+    displayFrame.insertAdjacentHTML("beforeend", wrapperHtml)
+
+let startTime = Date.now()
+    // // handles the display of the questions
+    localStorage.setItem("questions", JSON.stringify(payload.questions))
+    sessionStorage.setItem("startTime",startTime)
+    // DisplayQuestions(payload.questions,payload.categoryId)
+    
+}
 
 function DisplayQuestions(payload,categoryId){
 
