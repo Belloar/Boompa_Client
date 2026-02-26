@@ -18,30 +18,31 @@ body{
     margin: 0;
 }
 #container{
+    flex: 1;
     display: flex;
     flex-wrap: wrap;
     background-color: var(--primary-item-color);
     min-height: 100vh;
-    overflow-x: auto;
+    /* overflow-x: auto; */
 
 
 }
 #actionArea{
+    flex: 1;
     display: flex;
     flex-direction: column;
     text-align: start;
     align-items: start;
     background-color: var(--alt-color);
     color: white;
-    flex: 1 1 20%;
 }
 #displayArea{
+    flex: 5;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
-    width: 80%;
 }
 .pageButton{
     flex: 1 1 20px;
@@ -56,15 +57,20 @@ body{
     font-size: 20px;
     /* background-color: var(--primary-bg-color); */
 }
-table{
-    flex: 1;
+#display-table{
     margin: 15px;
     max-width: 1000px;
     border-collapse: collapse;
+    border: none;
+    border-radius: 15px;
+}
+tr{
+    border-bottom: 2px solid var(--primary-border-color);
 }
 table,th,td{
-    border:1px solid var(--alt-color);
+    border:px solid var(--alt-color);
     padding:20px;
+    margin: 10px;
 }
 thead{
     background-color: var(--alt-color);
@@ -72,20 +78,22 @@ thead{
 }
 
 tr:hover{
-    background-color: var(--primary-border-color);
-    color: white;
+    /* background-color: var(--primary-border-color); */
+    /* color: white; */
 }
 
 .actionButton{
     border: 2px solid var(--primary-border-color);
     border-radius: 8px;
     width: 80px;
-    height: 70px;
-    transition: width 0.5s ease-in,height 0.5s ease-in;
+    height: 40px;
+    cursor: pointer;
+    margin-left: 50px;
+    transition: width 0.3s ease-in,height 0.3s ease-in;
 }
-.actionButton{
+.actionButton:hover{
     width: 83px;
-    height: 73px;
+    height: 44px;
 }
 #getButton{
     background-color: green;

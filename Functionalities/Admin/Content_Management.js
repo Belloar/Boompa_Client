@@ -404,7 +404,7 @@ function AdminNavigation(){
     <ul class="admin-nav-list">
       <li class="admin-nav-item"><a href="/Pages/wiz-ee-wig.html">Create Content(WYSIWYG) </a></li>
       <li class="admin-nav-item"><a href="/Pages/Admin/Content_Creation.html">Create Content(Casual) </a></li>
-      <li class="admin-nav-item"><a href="/Pages/Admin/DisplayUsers.html">Get Learners</a></li>
+      <li class="admin-nav-item"><a href="/Pages/Admin/User_Management.html">Get Learners</a></li>
     </ul>
   </nav>
 

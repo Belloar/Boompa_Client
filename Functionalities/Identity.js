@@ -67,7 +67,7 @@ async function Register(event){
     const formData = new FormData(form);
     
 
-    let response = await fetch("https://localhost:44325/api/Learner/CreateLearner",{
+    let response = await fetch("https://localhost:57561/api/Learner/CreateLearner",{
         method: "POST",
         headers:{
             "Content-Type":"application/json"

@@ -112,21 +112,21 @@ function ComputeRewards(categoryId){
     let endTime =  Date.now()
     let duration = (endTime-startTime)/(1000*60)
     let result = (correct/totalQuestions)*100
-    let date = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate() > 9 ? new Date().getDate() : "0"+new Date().getDate()}`
+    let date = `${new Date().getFullYear()}-${new Date().getMonth() < 9 ? "0"+(new Date().getMonth()) : new Date().getMonth()}-${new Date().getDate() > 9 ? new Date().getDate() : "0"+new Date().getDate()}`
     
     //request payload
     let hermes ={
                 "categoryId":categoryId,
-                "coinCount":Math.round(result),
-                "date":date,
-                "duration": Math.round(duration),
                 "ticketCount":2,
+                "coinCount":Math.round(result),
+                "duration": Math.round(duration),
+                "date":date,
     }
     console.log(hermes)
     // sessionStorage.removeItem("startTime")
-    alert(`Performance${result}%`)
-    // DocumentVisit(hermes)
-
+    alert(`Performance ${result}%`)
+    DocumentVisit(hermes)
+    
 }
 
  async function DocumentVisit(payload){

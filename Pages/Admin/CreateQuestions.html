@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Styles/Admin/CreateQuestions.css">
+    <title>Create Questions</title>
+</head>
+<body>
+    
+    <section class="body-item" id="main-section">
+        <nav id="action-nav">
+                <button class="nav-btn" id="save-btn">Save</button>
+                <button class="nav-btn" id="publish-btn">Publish</button>
+                <button class="nav-btn" id="discard-btn">Discard</button>
+                <button class="nav-btn" id="preview-btn">Preview</button>
+                <button class="nav-btn" id="add-question-btn">Add Question</button>
+        </nav>
+
+        <div id="question-editor">
+            
+            <form class="" id="create-questions-form">
+            </form>
+        </div>
+
+    </section>
+    
+    <section class="body-item" id="secondary-section">
+
+        <select class="" name="question-type" id="question-type-selector">
+            <option value="none" selected>Select Question Type</option>
+            <option value="mcq">Multiple Choice Question</option>
+        </select>
+        
+        <select class="" name="" id="question-media-type" >
+            <option value="none" selected>Select Question Media Type</option>
+            <option class="" value="text">Text </option>
+            <option class="" value="image">Image </option>
+            <option class="" value="video">Video</option>
+        </select>
+
+        <select class="" name="" id="answer-media-selector" >
+            <option value="none" selected>Select Answer Type</option>
+            <option value="text">Text Answer</option>
+            <option value="image">Image Answer</option>
+        </select>
+        <select id="question-list">
+            <option value="none" selected>Select Question</option>
+        </select>
+    </section>
+
+    <script src="/Functionalities/Admin/CreateQuestions.js"></script>
+</body>
+</html>

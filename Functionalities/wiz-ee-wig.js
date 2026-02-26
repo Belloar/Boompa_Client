@@ -114,10 +114,23 @@ function ProcessPayload(content,form){
   formData.append("description",form.querySelector("[name = 'Description']").value)
   formData.append("createdOn",new Date().toISOString())
 
- formData.forEach((value,key) => {
-  console.log(`value: ${value} + key: ${key}`)
- })
+//  formData.forEach((value,key) => {
+//   console.log(`value: ${value} + key: ${key}`)
+//  })
  return formData
+}
+
+function PromptToAddQuestions(){
+  const shouldProceed = window.confirm(
+    "source material saved successfully.\nwould you like to proceed to add questions for this material"
+  )
+
+  if(shouldProceed){
+    window.location.href = "/Pages/TempQuestionPage.html"
+    return
+  }
+
+  window.location.reload()
 }
 
 async function AddSourceMaterial(payload){
@@ -125,13 +138,19 @@ async function AddSourceMaterial(payload){
     let request = await fetch("https://localhost:57561/api/SourceMaterial/AddNewSourceMaterial",{
     method:"POST",
     headers:{
-      // "Authorization":`${sessionStorage.getItem("token")}`
+      "Authorization":`Bearer ${sessionStorage.getItem("token")}`
     },
     body:payload
   })
 
+  if(!request.ok){
+    throw new Error("Unable to save source material")
+  }
+
   let response = await request.json()
   console.log(response.data)
+  sessionStorage.setItem("sourceId",response.data)
+  PromptToAddQuestions()
 
   } catch (error) {
     console.log(error)
@@ -144,7 +163,7 @@ function AdminNavigation(){
     <ul class="admin-nav-list">
       <li class="admin-nav-item"><a href="/Pages/wiz-ee-wig.html">Create Content(WYSIWYG) </a></li>
       <li class="admin-nav-item"><a href="/Pages/Admin/Content_Creation.html">Create Content(Casual) </a></li>
-      <li class="admin-nav-item"><a href="/Pages/Admin/DisplayUsers.html">Get Learners</a></li>
+      <li class="admin-nav-item"><a href="/Pages/Admin/User_Management.html">Get Learners</a></li>
     </ul>
   </nav>
 

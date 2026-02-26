@@ -33,25 +33,16 @@ function DisplayArticles(payload){
     payload.forEach(sourceMaterial => {
         //let id = sourceMaterial
 
-        // will be responsible for the clicking event
-        let div = document.createElement("div");
-        div.dataset.id= sourceMaterial.sourceId
-        div.classList.add("flex-item")
+        const html = `
+        <div class="flex-item" data-id="${sourceMaterial.sourceId}">
+            <h2>${sourceMaterial.sourceName}</h2>
+            <p>${sourceMaterial.sourceDescription}</p>
+        </div> `
 
-        //Display the source material name
-        let heading = document.createElement("h2");
-        heading.textContent=sourceMaterial.sourceName
-
-        //Display the description of the article
-        let p = document.createElement("p")
-        p.textContent=sourceMaterial.sourceDescription
-
-        div.appendChild(heading)
-        div.appendChild(p)
-        document.getElementById("container").appendChild(div)
+        document.getElementById("container").insertAdjacentHTML("beforeend",html)
 
         //when clicked store the category name and the source material id 
-        console.log(`${div.id}`)
+        let div = document.querySelector(`[data-id="${sourceMaterial.sourceId}"]`)
         div.addEventListener("click",() => Redirect(`${sessionStorage.getItem("category")}`,div.dataset.id))
     });
 }

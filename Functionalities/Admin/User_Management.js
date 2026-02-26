@@ -13,7 +13,7 @@ async function CreateAdmin(){
         let form = document.getElementById("admin-creation-form")
         let formData = FormData(form)
 
-        const response = await fetch("https://localhost:44325/api/Admin/CreateAdmin",{
+        const response = await fetch("https://localhost:57561/api/Admin/CreateAdmin",{
             "method":"POST",
             "'headers":{
                 "Authorization":`${sessionStorage.getItem("token")}`
@@ -124,7 +124,7 @@ function DisplayUsers(payload){
         getBtn.classList.add("actionButton")
         getBtn.id = "getButton"
         getBtn.addEventListener("click", () => {
-            GetLearner(user.email)
+            NavigateToUserDetails(user.email)
         })
 
         let deleteBtn = document.createElement("button")
@@ -136,7 +136,7 @@ function DisplayUsers(payload){
             DeleteUser(user.email)
         })
 
-        tr.append(getBtn,deleteBtn)
+        tr.append(getBtn)
         body.append(tr)
     })
 
@@ -145,6 +145,15 @@ function DisplayUsers(payload){
     table.append(head)
     table.appendChild(body)
     displayArea.append(table)
+}
+
+function NavigateToUserDetails(email){
+    if(!email){
+        return
+    }
+
+    sessionStorage.setItem("selectedUserEmail", email)
+    window.location.href = `/Pages/Admin/User_Details.html?email=${encodeURIComponent(email)}`
 }
 
 async function GetLearner(searchString){
@@ -168,7 +177,7 @@ async function GetLearner(searchString){
 async function GetAllLearners(){
     try{
 
-    const response = await fetch("https://localhost:44325/api/Admin/GetLearners")
+    const response = await fetch(`https://localhost:57561/api/Learner/GetLearners/0`)
 
     let result = await response.json()
     console.log(result)
@@ -218,6 +227,7 @@ function SplitData(payload,pageNumber){
 
     return splitData
 }
+
 
 
 

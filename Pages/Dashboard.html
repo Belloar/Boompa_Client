@@ -3,29 +3,30 @@
     <script src="https://kit.fontawesome.com/f7e6890455.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/Styles/Dashboard.css">
     <head>
-        <nav class="base-nav">
-                <a href="/Pages/Homepage.html" class="nav-link" id="">Home</a>
-                <!-- <a href="" class="nav-link"id="">Categories</a>
-                <a href="" class="nav-link"id="">Leaderboards</a>
-                <a href="" class="nav-link"id="">Arcade</a> -->
-                <a href="" class="nav-link"id=""></a>
-                <a href="" class="nav-link"id=""></a>
-
-            </nav>
+        <title>Dashboard</title>
 
     </head>
     <body>
         <div class="wrapper">
-            
+            <!-- <i class="fa-solid fa-coins"></i>
+             <i class="fa-regular fa-gem"></i>
+            <i class="fa-solid fa-ticket"></i> -->
+            <nav class="base-nav">
+                    <a href="" class="currency fa-solid fa-ticket base-nav-link" ><span id="tickets"> </span></a>
+                    <a href="" class="currency fa-solid fa-coins base-nav-link"><span id="coins">  </span></a>
+                    <a href="" class="currency fa-regular fa-gem base-nav-link" id="diamonds"> </a>
+                    <!-- <a href="" class="currency base-nav-link"id=""></a>
+                    <a href="" class="currency base-nav-link"id=""></a>
+                    <a href="" class="currency base-nav-link"id=""></a> -->
+            </nav>
+
             <div class="item" id="welcome-div">
                 <img src="" alt="profile picture" id="profile-pic">
-                <p id="welcome-text"><span id="username">User</span></p>
-                <div class="counters" id="tickets"></div>
-                <div class="counters" id="coins"></div>
-                <div class="counters" id="diamonds"></div>
+                <p id="welcome-text">Welcome Back!! <span id="username">User</span></p>
             </div>
 
             <div class="item action big-block " id="learn">
+                <img class="display-image" src="/Media/learning and smiling.png" alt="" srcset="">
                 <h2 class="title" id="">Start Learning</h2>
                 <p>Dive into exciting subjects and expand your knowledge with interactive sessions</p>
                 <button type="button" onclick="window.location.href ='/Pages/Categories.html'" id="categories-pointer">Explore Categories</button>
@@ -39,6 +40,7 @@
             </div> -->
 
             <div class="item big-block" id="contest-block">
+                <img class="display-image" src="/Media/children in a contest.png" alt="" >
                 <h2 class="title" id="">Contest</h2>
                 <p>Compete with other learners in challenges </p>
                 <button type="button" id="contest-pointer">Enter a battle</button>

@@ -86,21 +86,17 @@ function Main(){
 GetSourceMaterial(localStorage.getItem("categoryName"),localStorage.getItem("sourceId"))
 }
 
-async function GetSourceMaterial(categoryName,sourceId){
-
+async function GetSourceMaterial(category,sourceId){
    try{
-     const response = await fetch("https://localhost:57561/api/SourceMaterial/GetSourceMaterial/",{
-        headers:{
-            "sourceId":`${sourceId}`,
-            "category": `${categoryName}`,
-            
-        }
+     const response = await fetch(`https://localhost:57561/api/SourceMaterial/GetSourceMaterial/${sourceId}/${category}`,{
+        method:"GET",
+        
     })
     const result = await response.json();
 
     sessionStorage.setItem("categoryId",result.data.categoryId)
     // sessionStorage.setItem("questions",result.data.questions)
-
+    console.log(result.data)
     RenderContent(result.data)
 
    }catch(err){

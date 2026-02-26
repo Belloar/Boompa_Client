@@ -1,6 +1,5 @@
 *{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: var(--primary-bg-color);
 }
 :root{
     --hover-button-color:rgb(189, 82, 43);
@@ -10,17 +9,11 @@
     --primary-item-color:white;
     --alt-color:rgb(26, 62, 94);
 
-}  
-p{
-    background-color: var(--primary-item-color);
-}
-h2{
-    background-color: var(--primary-item-color);
-}
+} 
 body{
-    background-color: var(--primary-bg-color);
     display: flex;
-    flex-direction: column;
+    flex: 1;
+    flex-wrap: wrap;;
     align-items: center;
     margin: 0;
 
@@ -28,14 +21,20 @@ body{
 .wrapper{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space around;
+    flex: 1;
     width: 80%;
+    background-color: var(--primary-bg-color);
     height: 100vh;
     /* border: 10px solid red; */
+}
+.currency{
+    margin: 20px;
+    padding: 15px;
 }
 .item{
     background-color: var(--primary-item-color);
     margin: 10px;
+    flex: 1;
     border: 2px solid var(--primary-border-color);
     border-radius: 8px;
     text-align: center;
@@ -46,14 +45,10 @@ body{
     width: 100%;
     height: 8vh;
     background-color: var(--alt-color);
-    
-    margin: 15px;
-    margin-top: 0;
-    /* border: 10px solid red; */
-
+    margin: 10px;
+    border-radius: 10px;
 }
-.nav-link{
-    background-color: var(--alt-color);
+.base-nav-link{
     margin: 8px;
     text-align: center;
     text-decoration: none;
@@ -75,10 +70,15 @@ button:hover{
 }
 #welcome-div{
     flex:1 1 100%;
+    height: 15vh;
 }
 .big-block{
-    flex:2 2 45%;
 }
 .learner-stats{
-    flex: 1 1  200px;
+}
+.display-image{
+    max-width: 300px;
+    max-height: 300px;
+    margin: 8px;
+    border-radius: 10px;
 }
