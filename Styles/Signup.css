@@ -8,6 +8,7 @@
     --primary-bg-color:rgb(192, 221, 246);
     --primary-button-color:rgb(132, 190, 242);
     --primary-border-color:rgb(41, 145, 236);
+    --alt-color:rgb(26, 62, 94);
 
 }  
 body{
@@ -57,4 +58,10 @@ input{
     padding: 7px;
     background-color: var(--primary-button-color);
     border-radius: 10px;
+}
+
+#submit-btn:hover{
+    background-color: var(--alt-color);
+    color: white;
+    cursor: pointer;
 }

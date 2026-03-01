@@ -2,7 +2,20 @@
     //process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     // Then proceed with your fetch request
 
+document.getElementById("submit-btn").addEventListener("click", (ev)=>{
+    console.log("submit button clicked")
+    Login(false)
+})
 
+// document.getElementById("admin-submit-btn").addEventListener("click", (ev)=>{
+//     console.log("admin submit button clicked")
+//     Login(true)
+// })
+
+document.getElementById("verify-btn").addEventListener("click",async (ev)=>{
+    const email = JSON.parse(sessionStorage.getItem("registrationData")).email
+    await VerifyEmail(email)
+})
     
 
 
@@ -61,40 +74,23 @@ function Redirect(IsAdmin){
         window.location.assign("/Pages/wiz-ee-wig.html")
     }
 }
-async function Register(event){
-    event.preventDefault();
-    const form = document.getElementById("registration-form");
-    const formData = new FormData(form);
-    
 
+
+async function AddUser(payload){
     let response = await fetch("https://localhost:57561/api/Learner/CreateLearner",{
         method: "POST",
         headers:{
             "Content-Type":"application/json"
         },
 
-        body: JSON.stringify({
-            "userName":`${formData.get("username")}`,
-            "password":`${formData.get("password")}`,
-            "email":`${formData.get("email")}`,
-            "age":`${formData.get("age")}`,
-            "phoneNumber":`${formData.get("phone-number")}`
-        }
+        body: JSON.stringify(payload)
 
-    )})
+    })
 
         if(response.ok){
             alert(await response.text())
             window.location.replace("Signin.html")
         }
-    
 }
 
-function ChangeStyle(){
-    alert("")
-    document.body.style.backgroundColor = "#ffffff"
-    const container = document.getElementById("container")
-    container.style.backgroundColor = "#ffff00"
-    return true
-}
 
