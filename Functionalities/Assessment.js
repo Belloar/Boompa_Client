@@ -106,6 +106,42 @@ function RefineOptions(options,answer,number){
     return result
 }
 
+function RefineDaOptions(options,answer,number){
+    const result= []
+
+    // creating the answer input 
+    let label = document.createElement("label")
+    label.htmlFor = answer
+
+    let ans = document.createElement("input")
+    
+    ans.id = "answer"
+    ans.type = "radio"
+    ans.value = answer
+    ans.innerHTML = answer
+    ans.name = number
+    label.append(ans,document.createTextNode(answer))
+
+    result.push(label)
+
+    // split options and create html element to rep them 
+    var splitOptions = options.split('|')
+    splitOptions.forEach((option) => {
+        let label = document.createElement("label")
+        label.htmlFor = option
+
+        const input = document.createElement('input')
+        input.id = "option"
+        input.type="radio"
+        input.value = option
+        input.name = number
+        label.append(input,document.createTextNode(option))
+        
+        result.push(label)
+    })
+    return result
+}
+
 function ComputeRewards(categoryId){
     //processing the duration of the lesson
     let startTime = sessionStorage.getItem("startTime")

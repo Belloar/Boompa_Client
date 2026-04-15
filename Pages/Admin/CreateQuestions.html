@@ -3,52 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/f7e6890455.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/Styles/Admin/CreateQuestions.css">
     <title>Create Questions</title>
 </head>
 <body>
-    
-    <section class="body-item" id="main-section">
+
+    <main class="body-item" id="main-section">
+        <header class="" id="main-section-header">
+            <h1>Assessment Creation Page</h1>
+            <p>Add questions of your preferred type to the articles </p>
+        </header>
+
         <nav id="action-nav">
-                <button class="nav-btn" id="save-btn">Save</button>
-                <button class="nav-btn" id="publish-btn">Publish</button>
-                <button class="nav-btn" id="discard-btn">Discard</button>
-                <button class="nav-btn" id="preview-btn">Preview</button>
-                <button class="nav-btn" id="add-question-btn">Add Question</button>
+            <button class="nav-btn" id="publish-btn"><span class="fa-solid fa-paper-plane" style="font-size: 20px;"></span>Publish</button>
+            <button class="nav-btn" id="discard-btn"><span class="fa-solid fa-trash" style="font-size: 20px;"></span>Discard</button>
+            <button class="nav-btn" id="preview-btn"><span class="fa-solid fa-eye" style="font-size: 20px;"></span>Preview</button>
+            <button class="nav-btn" id="add-question-btn"><span class="fa-solid fa-plus" style="font-size: 20px;"></span>Add Question</button>
         </nav>
-
-        <div id="question-editor">
-            
-            <form class="" id="create-questions-form">
-            </form>
-        </div>
-
-    </section>
-    
-    <section class="body-item" id="secondary-section">
-
-        <select class="" name="question-type" id="question-type-selector">
-            <option value="none" selected>Select Question Type</option>
-            <option value="mcq">Multiple Choice Question</option>
-        </select>
         
-        <select class="" name="" id="question-media-type" >
-            <option value="none" selected>Select Question Media Type</option>
-            <option class="" value="text">Text </option>
-            <option class="" value="image">Image </option>
-            <option class="" value="video">Video</option>
-        </select>
+        <section class="" id="question-editor">
+            <button type="button" class="is-hidden" id="settings-btn"><span class="fa-solid fa-gears" style="font-size: 25px;"></span></button>
+            
+            
+            <form class="editor-component" id="create-questions-form" >
+                <div class="form-component" id="empty-editor">
+                    <h1>Pick a template to begin</h1>
+                    <p>Click on the "Add Question" button to pick a template and construct your first question</p>
+                    <p>Click on the settings button that will appear on the top right corner to configure media and answer format </p>
+                </div>
+            </form>
+            <button class="editor-component is-hidden"  id="save-btn" type="button">Save Draft</button>
+        </section>
 
-        <select class="" name="" id="answer-media-selector" >
-            <option value="none" selected>Select Answer Type</option>
-            <option value="text">Text Answer</option>
-            <option value="image">Image Answer</option>
-        </select>
-        <select id="question-list">
-            <option value="none" selected>Select Question</option>
-        </select>
+    </main>
+    
+    <aside class="body-item" id="secondary-section">
+        
+    <section id="question-list">
+            <header>
+                <h4>Question List</h4>
+            </header>
+            <div class="empty-state" id="widget-description">
+                <p class="empty-widget">Added questions appear here</p>
+            </div>
+            <article class="is-hidden" id="widget-container">
+                
+            </article>
+
+            
+           
     </section>
+       
+    </aside>
 
+
+    
+    <!--
+
+    close button icon
+    <i class="fa-solid fa-rectangle-xmark"></i>
+
+    settings wheel
+    <i class="fa-solid fa-gears"></i>
+    
+    question icon
+    <i class="fa-solid fa-square-poll-horizontal"></i>
+    
+    plus sign
+    <i class="fa-solid fa-plus"></i>
+
+    eye icon
+    <i class="fa-solid fa-eye"></i>
+
+    check icon
+    <i class="fa-solid fa-check"></i>
+
+    paper plane
+    <i class="fa-solid fa-paper-plane"></i>
+    
+    trash icon
+    <i class="fa-solid fa-trash"></i>
+
+    image icon
+    <i class="fa-solid fa-image"></i>
+
+    double check icon
+    <i class="fa-solid fa-check-double"></i>
+
+    multiple choice icon
+    <i class="fa-solid fa-shapes"></i>
+
+    video icon
+    <i class="fa-solid fa-file-video"></i>
+
+    audio icon
+    <i class="fa-solid fa-file-audio"></i>
+    -->
     <script src="/Functionalities/Admin/CreateQuestions.js"></script>
 </body>
 </html>
