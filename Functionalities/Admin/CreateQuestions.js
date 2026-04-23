@@ -9,6 +9,7 @@ let isSaved = false
 let editorState = 0
 let currentQuestionIndex = null
 let sourceLink = {}
+let previewState = {}
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,25 +28,36 @@ document.getElementById("save-btn").addEventListener("click", () => {
         DisplayTaperNotification("saved successfully, add another question or publish questions")
     }
     else{
-        alert("add a question to save")
+        DisplayTaperNotification("add a question to save")
     }
 })
 
 // display question settings dialog
 document.getElementById("settings-btn").addEventListener("click", () => {
     DisplaySettingsDialog()
+    if(questionType == "free-text"){
+        document.querySelector("#option-media-selector").classList.add("is-hidden")
+    }
 })
 
 // save questions to database
 document.getElementById("publish-btn").addEventListener("click",() => {
- 
-    console.log(questions)
-    AddQuestions()
+    let payload = AddQuestionHelper(questions)
+    console.log(payload)
+    AddQuestions(payload)
 });
 
+// preview event listener
 document.getElementById("preview-btn").addEventListener("click",() => {
-    CheckQuestionsValidity(question)
-    PreviewQuestions(questions)
+    SaveCurrentQuestion()
+    if(!questions.length){
+        DisplayTaperNotification("Add Questions to the editor to preview them")
+        return
+    }
+    // CheckQuestionsValidity(question)
+    AppendPreviewBox()
+    previewState.currentIndex = 0
+    TogglePreviewQuestion(questions)
 })
 
 //attach media to question
@@ -73,7 +85,7 @@ document.addEventListener("click", function(ev) {
 document.addEventListener("change", function(ev){
     if(ev.target.id == "configure-option-format"){
         optionMedia = ev.target.value
-        console.log(optionMedia)
+
         let inputs = document.querySelectorAll(".choice")
 
         document.querySelector(".close-dialog").click()
@@ -91,7 +103,7 @@ document.addEventListener("change", function(ev){
                 
 
             let mediaId = input.id
-            // console.log(mediaId)
+            
             OptionMediaHelper(sourceLink.Source,sourceLink.FileType,mediaId,mediaId)
             document.querySelector(".media-btn").remove()
             input.remove()
@@ -113,9 +125,14 @@ document.addEventListener("click", function(ev) {
           SaveCurrentQuestion()
         }
 
-        let question = document.querySelector("input[name='question-type']:checked")
+        let chosenType = document.querySelector("input[name='question-type']:checked")
 
-        switch(question.value){
+        if(!chosenType){
+            DisplayTaperNotification("Select a question type to add a question")
+            return
+        }
+
+        switch(chosenType.value){
             case "mcq":
                 MCQ()
                 document.querySelector("#settings-btn").classList.remove("is-hidden")
@@ -124,10 +141,12 @@ document.addEventListener("click", function(ev) {
             case "free-text":
                 FreeText()
                 document.querySelector("#settings-btn").classList.remove("is-hidden")
-                
+                document.querySelector("#save-btn").classList.remove("is-hidden")
                 break;
             case "mrq":
-                
+                MRQ()
+                document.querySelector("#settings-btn").classList.remove("is-hidden")
+                document.querySelector("#save-btn").classList.remove("is-hidden")
                 break;
             default:
                 // MCQ()
@@ -138,10 +157,10 @@ document.addEventListener("click", function(ev) {
         document.getElementById("widget-description").classList.add("is-hidden")
         counter++ ;
 
-        AddWidget(question.value)
+        AddWidget(chosenType.value)
         currentQuestionIndex = counter
         editorState = currentQuestionIndex
-        questionType = question.value
+        questionType = chosenType.value
 
         document.querySelector(".dialog-overlay").remove()
     }
@@ -151,13 +170,6 @@ document.addEventListener("click", function(ev) {
 document.addEventListener("click", function(ev){
     if(ev.target.id == "taper-btn"){
         document.getElementById("ui-taper-notification").remove()
-    }
-})
-
-// settings dialog behaviour for different question types
-document.addEventListener("click",function(ev){
-    if(questionType!=undefined && questionType!=null && questionType == "free-text"){
-        document.querySelector("#option-media-selector").classList.add("is-hidden")
     }
 })
 
@@ -178,15 +190,134 @@ document.addEventListener("click",function(ev){
     console.log(questions)
 })
 
-//  document.addEventListener("focusout",function(ev){
-//     let form = document.createElement("form")
-//     form.
-// })
+// preview next button behaviour
+document.addEventListener("click", function(ev){
+    if(ev.target.closest("#preview-next")){
+        
+
+        previewState.currentIndex += 1
+        
+        if(previewState.currentIndex > questions.length){
+            return
+        }
+        else{
+            TogglePreviewQuestion(questions,previewState.currentIndex)
+        }
+    }
+})
+
+// preview previous button behaviour
+document.addEventListener("click", function(ev){
+    if(ev.target.closest("#preview-previous")){
+        previewState.currentIndex -= 1
+        if(previewState.currentIndex < 0){
+            return
+        }
+        else{
+            TogglePreviewQuestion(questions,previewState.currentIndex)
+        }
+    }
+})
+//discard input field in MRQ template
+document.addEventListener("click",function(ev){
+    if(ev.target.closest(".discard-field-btn")){
+        ev.target.closest(".mrq-field").remove()
+    }
+})
+
+
+// add more fields for ANSWERS in the MRQ template
+document.addEventListener("click", function(ev){
+        if(ev.target.id == "add-answer-field"){
+            let answerContainer = document.getElementById("answer-container")
+
+            if(optionMedia == "default"){
+            let block = `
+                <div class="mrq-field">
+                    <input type="text" class="mrq-answer editor-input choice" placeholder="Input Answer"></input>
+                    <button type="button" class="editor-input discard-field-btn"><span class="fa-solid fa-trash"></span></button>
+                </div>`
+            answerContainer.insertAdjacentHTML("beforeend",block)
+
+        }
+        else{
+            SelectFile().then(sourceLink => {
+                MRQOptionHelper(sourceLink.Source,sourceLink.FileType,"mrq-answer")
+            })
+        }
+    }
+
+})
+
+// add more fields for OPTIONS in the MRQ template
+document.addEventListener("click", function(ev){
+    if(ev.target.id == "add-option-field"){
+        let optionContainer = document.getElementById("option-container")
+        let block = ""
+
+        if(optionMedia == "default"){
+            block = `
+                <div class="mrq-field">
+                    <input type="text" class="editor-input mrq-option choice" placeholder="Input Option"></input>
+                    <button type="button" class="editor-input discard-field-btn"><span class="fa-solid fa-trash"></span></button>
+                </div>`  
+            
+            optionContainer.insertAdjacentHTML("beforeend",block)
+        }
+        else{
+            SelectFile().then(sourceLink => {
+                MRQOptionHelper(sourceLink.Source,sourceLink.FileType,"mrq-option")
+            })
+        }
+    }
+})
+// close preview window
+document.addEventListener("click",function(ev){
+    if(ev.target.closest("#close-preview-dialog")){
+        document.querySelector("#preview-overlay").remove()
+    }
+})
+
+// toggle previewed question after answer has been chosen
+document.addEventListener("click",function(ev){
+    if(ev.target.classList.contains("option-component")){
+        
+        previewState.currentIndex += 1
+        TogglePreviewQuestion(questions,previewState.currentIndex)
+    }
+})
+
+function MRQOptionHelper(source,fileType,target){
+    if(optionMedia!= fileType){
+        DisplayTaperNotification("select valid media type")
+        return
+    }
+    
+    let html
+    switch(fileType){
+            case "image":
+                html = ` <img src="${source}" class="media-tag ${target} choice" id="${id}"alt="uploaded image"> `
+                break;
+
+            case "video":
+                html = ` <video src="${source}" class="media-tag ${target} choice" id="${id}" muted loop>  `
+                break;
+
+            case "audio":
+                html = ` <audio src="${source}" class="media-tag ${target} choice" id="${id}"> `
+                break;
+        }
+        
+        let parentNode = document.getElementById("option-container")
+        parentNode.insertAdjacentHTML("afterend",html)
+
+
+}
 
 function MCQ() {
     const html = `
         <header>
-            <h1>Build a structured question</h1>
+            <h1>Build structured multiple choice questions</h1>
             <p>Write the prompt, define the answer, and give learners clear choices</p>
         </header>
 
@@ -236,8 +367,52 @@ function MCQ() {
 
 function MRQ(){
     const html = `
-    
+        <section>
+            <header>
+                <title></title>
+                <h2>Multi-Response question</h2>
+                <p>Add the prompt and add its answers and other options in the fields provided </p>
+                <p>Click on the settings icon to change option format</p>
+            </header>
+
+            <label class="editor-field full-field" id="" for="question">
+                <span class="" id=""> Question Prompt</span>
+                <input type="text" class="editor-input" id="question" placeholder="input prompt here"></input>
+            </label>
+
+            <label class="editor-field full-field" id="answer-container" >
+                <span class="" id=""> Answers</span>
+                <button type ="button" class="mrq-btn" id="add-answer-field" >Add Field</button>
+                <div class="mrq-field">
+                    <input type="text" class="mrq-answer editor-input choice" placeholder="Input Answer"></input>
+                    <button type="button" class="editor-input discard-field-btn"><span class="fa-solid fa-trash"></span></button>
+                </div>
+                
+                <div class="mrq-field">
+                    <input type="text" class="mrq-answer editor-input choice" placeholder="Input Answer"></input>
+                    <button type="button" class="editor-input discard-field-btn"><span class="fa-solid fa-trash"></span></button>
+                </div>
+            </label>
+
+            <label class="editor-field full-field" id="option-container" >
+                <span class="" id=""> Other Options</span>
+                <button type ="button" class="mrq-btn" id="add-option-field" >Add Field</button>
+
+                <div class="mrq-field">
+                    <input type="text" class="editor-input mrq-option choice" placeholder="Input Option"></input>
+                    <button type="button" class="editor-input discard-field-btn"><span class="fa-solid fa-trash"></span></button>
+                </div>
+                <div class="mrq-field">
+                    <input type="text" class="editor-input mrq-option choice" placeholder="Input Option"></input>
+                    <button type="button" class="editor-input discard-field-btn"><span class="fa-solid fa-trash"></span></button>
+                </div>
+            </label>
+
+        </section>
     `
+    let container = document.getElementById("create-questions-form")
+    container.innerHTML = ''
+    container.insertAdjacentHTML("beforeend", html);
 }
 
 function FreeText() {
@@ -251,13 +426,10 @@ function FreeText() {
             <span>Answer</span><br>
             <input type="text" class="editor-input" id="answer" placeholder="Input answer"></input>
         </label>
-        
-        
    `
-   let container = document.getElementById("create-questions-form")
+    let container = document.getElementById("create-questions-form")
     container.innerHTML = ''
     container.insertAdjacentHTML('afterbegin', html);
-    
 }
 
 function PageNavigation() {
@@ -286,18 +458,16 @@ function PageNavigation() {
 
 function AppendQuestion(typeaQuestion){
     switch(typeaQuestion){
-            case "mcq":
+        case "mcq":
+            return AppendMCQQuestions()
+        case "free-text":
 
-                return AppendMCQQuestions()
-            case "free-text":
-
-                return AppendFreeQuestions()
-            case "mrq":
-
-                return null
-            default:
-                return null
-        }
+            return AppendFreeQuestions()
+        case "mrq":
+            return AppendMRQQuestions()
+        default:
+            return null
+    }
 }
 
 function SaveCurrentQuestion(){
@@ -313,8 +483,18 @@ function SaveCurrentQuestion(){
     questions[currentQuestionIndex - 1] = questionPayload
 }
 
-function AddQuestions(){
-    console.log(questions)
+function AddQuestionHelper(questions){
+    let result = questions.map(question => {
+        question = {
+            TextDescription: question.TextDescription,
+            Answer: question.Answer,
+            Option: question.Option,
+            QuestionType: question.QuestionType,
+        }
+    })
+    return result
+}
+function AddQuestions(payload){
     fetch("https://localhost:57561/api/SourceMaterial/AddQuestionsByGuid",{
         method: "POST",
         headers: {
@@ -322,7 +502,7 @@ function AddQuestions(){
             "Content-Type":"application/json",
             // Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
-        body: JSON.stringify(questions)
+        body: JSON.stringify(payload)
 
 
 
@@ -341,7 +521,7 @@ function AppendMCQQuestions(){
     let media = document.querySelector(".question")
     const description = document.getElementById("question").value;
     let template = {}
-    if(media!= null || media!=undefined){
+    if(media != null){
         const compDescription = `${media.outerHTML}||${description}`
         template.TextDescription = compDescription
         template.PromptHasMedia = true
@@ -400,9 +580,39 @@ function AppendFreeQuestions(){
     return template
 }
 
+function AppendMRQQuestions(){
+    let prompt = document.querySelector("#question")
+    let media = document.querySelector(".media-tag")
+    let template = {}
+    if(!media){
+        template.TextDescription = prompt.value
+        template.PromptHasMedia = false
+    }
+    else{
+        const compDescription = `${media.outerHTML}||${prompt.value}`
+        template.TextDescription = compDescription
+        template.PromptHasMedia = true
+    }
+
+    if(optionMedia == "default"){
+        const answerList = Array.from(document.querySelectorAll(".mrq-answer")).map(choice => choice.value)
+        const optionsList = Array.from(document.querySelectorAll(".mrq-option")).map(choice => choice.value)
+        template.Answer = answerList.join("||")
+        template.Option = optionsList.join("||")
+    }
+    else{
+        const answerList = Array.from(document.querySelectorAll(".mrq-answer")).map(choice => choice.outerHTML)
+        const optionsList = Array.from(document.querySelectorAll(".mrq-option")).map(choice => choice.outerHTML)
+        template.Answer = answerList.join("||")
+        template.Option = optionsList.join("||")
+        optionMedia = "default"
+    }
+    template.QuestionType = questionType
+    return template
+}
+
 function DisplaySettingsDialog(){
     const html = `
-        <div></div>
 
          <div class="dialog-overlay" id="">
             <div class="" id="settings-box">
@@ -419,7 +629,7 @@ function DisplaySettingsDialog(){
                     </select>
                 </div>
 
-                <div class="settings-box-component" id="option-media-selector">
+                <div class="settings-box-component " id="option-media-selector">
                     <span>Option Media Format</span><br>
                     <select id="configure-option-format">
                         <option class="" id="" value="default" selected>Change option media format</option>
@@ -462,9 +672,15 @@ function AddWidget(questionType){
             break;
 
         case "mrq":
+            html =  `
+            <div class="question-widget" data-questionType="${questionType}" data-index="${counter}" id="q${counter}">
+                <span class="fa-solid fa-square-poll-horizontal"></span>
+                ${counter}. ${questionType}
+            </div>
+            `
             break;
         default:
-            MCQ();
+            null;
             break;
     }
     
@@ -485,29 +701,24 @@ function DisplayDialog(){
 
                         <label for="mcq">
                         <input type="radio" name = "question-type" class="question-type" value = "mcq" id = "mcq"></input>
-                        Multiple Choice question
+                            Multiple Choice question
                         </label><br>
 
                         <label for="mrq">
-                        <input type="radio" name = "question-type" class="question-type" value = "mrq"id = "mrq"></input>
-                        Multiple  response question
+                        <input type="radio" name = "question-type" class="question-type" value = "mrq" id = "mrq"></input>
+                            Multiple  response question
                         </label><br>
 
                         <label for="free-text">
                         <input type="radio"class="question-type" name = "question-type" value = "free-text" id="free-text"></input>
-                        Free Text Question
+                            Free Text Question
                         </label><br>
-
                     </fieldset>
                 </div>
-
             </div>
-           
-           
             <button class="" id="add-btn"> Add </button>
         </div>
     </section>
-
     `
     document.body.insertAdjacentHTML('beforeend', html);
 }
@@ -533,14 +744,13 @@ function DisplayMediaDialog(){
                     <span class="icon fa-solid fa-file-audio"></span>
                     Audio
                 </div>
-
             </div>
         </div>
     `
     document.body.insertAdjacentHTML("afterbegin",html)
 }
 
-  function SelectFile(){
+function SelectFile(){
     return new Promise((resolve,reject)=>{
         
         let input = document.createElement("input")
@@ -550,24 +760,18 @@ function DisplayMediaDialog(){
         let file = ev.target.files[0]
         let fileType = file.type.split("/")[0]
 
-        
         let source = await AddMedia(file)
 
         sourceLink.Source = source
         sourceLink.FileType = fileType
         resolve(sourceLink)
-        
-        
     }
-       
     input.click()
     })
-    
 }
 
 function AppendSource(source,fileType,target){
     let html
-    
     switch(fileType){
             case "image":
                 html = ` <img src="${source}" class="media-tag ${targetClasses}" alt="uploaded image"> `
@@ -581,10 +785,8 @@ function AppendSource(source,fileType,target){
                 html = ` <audio src="${source}" class="media-tag"> `
                 break;
         }
-        
         let parentNode = document.querySelector(target)
         parentNode.insertAdjacentHTML("afterend",html)
-
 }
 
 function PromptMediaHelper(source,fileType,target){
@@ -616,7 +818,7 @@ function PromptMediaHelper(source,fileType,target){
 
 function OptionMediaHelper(source,fileType,target,id){
     if(optionMedia!= fileType){
-        alert("select valid media type")
+        DisplayTaperNotification("select valid media type")
         return
     }
     
@@ -692,6 +894,21 @@ function DisplayTaperNotification(message){
         </section>
     `
     document.body.insertAdjacentHTML("afterbegin",html)
+
+    setTimeout(() => {
+        if(document.getElementById("ui-taper-notification")){
+            document.getElementById("ui-taper-notification").remove()
+        }}, 3000)
+
+}
+
+function LiteralBuilder(block,id="",classes=[]){
+     const buildingBlock = `
+        <div class="${classes.join(" ")}" id="${id}">
+            ${block}
+        </div>
+    `
+    return buildingBlock
 }
 
 function ToggleDisplayedQuestion(count){
@@ -703,7 +920,6 @@ function ToggleDisplayedQuestion(count){
     currentQuestionIndex = count
     editorState = currentQuestionIndex
     questionType = question.QuestionType
-    console.log("toggle Question")
     switch(question.QuestionType){
         
             case "mcq":
@@ -776,27 +992,213 @@ function ToggleDisplayedQuestion(count){
                 
                 break;
             case "mrq":
+                MRQ()
+                document.querySelector("#settings-btn").classList.remove("is-hidden")
+                document.querySelector("#save-btn").classList.remove("is-hidden")
+
+                let editorPrompt = document.querySelector("#question")
+                if(question.PromptHasMedia){
+                    let prompt = question.TextDescription
+                    let questionArr = prompt.split("||")
+                    editorPrompt.value = questionArr[1]
+                    editorPrompt.insertAdjacentHTML("afterend",questionArr[0])
+                }
+                else{
+                    editorPrompt.value = question.TextDescription
+                }
                 
+                let answerContainer = document.getElementById("answer-container")
+                let optionContainer = document.querySelector("#option-container")
+
+                let optionList = question.Option.split("||")
+                let answerList = question.Answer.split("||")
+
+
+                // for option
+                if(question.OptionType == "default"){
+
+                        optionList.forEach(option => {
+                        // let block = `<input type="text" class="editor-input mrq-option choice" placeholder="Input Option"></input>`
+
+                        let input = document.createElement("input")
+                        input.type = "text"
+                        input.classList.add("editor-input","mrq-option","choice")
+                        input.placeholder = "Input Option"
+                        input.value = option
+                        answerContainer.appendChild(input)
+                    })
+                }
+                else{
+                    optionList.forEach(option => {
+                        optionContainer.insertAdjacentHTML("beforeend",option)
+                    })
+                }
+
+                // for answer
+                if(question.OptionType == "default"){
+
+                        answerList.forEach(answer => {
+                        let input = document.createElement("input")
+                        input.type = "text"
+                        input.classList.add("editor-input","mrq-answer","choice")
+                        input.placeholder = "Input Option"
+                        input.value = answer
+                        answerContainer.appendChild(input)
+                    })
+                }
+                else{
+                    answerList.forEach(answer => {
+                        answerContainer.insertAdjacentHTML("beforeend",answer)
+                    })
+                }
                 break;
             default:
-                // MCQ()
+                return null
                 break;
         }
-
-    
-
 }
 
-function PreviewQuestions(fetchObject){
-    const html = `
-        <section class="dialog-overlay" id="">
-            <h2>Preview Questions</h2>
-            <div id="preview-box">
-            </div>
+function AppendPreviewBox(){
+    const previewBox = `
+        <section class="" id="preview-overlay">
+            <section id="preview-box">
+                <article class="" id="preview-body">
+                    <header class="" id="preview-header">
+                        <nav class="" id="preview-header-nav">
+                            <button class="preview-action" id="close-preview-dialog"><span class="fa-solid fa-rectangle-xmark"></span></button>
+                            <button class="preview-action" id="restart-preview-dialog"><span class="fa-solid fa-rotate-left"></span></button>
+                        </nav>
+                        <h2>Preview</h2>
+                    </header>
+
+                    <div id="preview-content-container"></div>
+
+                    <nav id="preview-nav">
+                        <button class="" id="preview-previous"><span class="fa-solid fa-arrow-left"></span></button>
+                        <button class="" id="preview-next"><span class="fa-solid fa-arrow-right"></span></button>
+                    </nav>
+                </article>
+            </section>
         </section>
     `
+    document.body.insertAdjacentHTML("afterbegin",previewBox)
 }
 
+function CombineArrays(arrToSplice,arrSplicedFrom){
+    if(arrSplicedFrom.length<=0){
+        return arrToSplice
+    }
+    let rand = Math.floor(Math.random()*arrSplicedFrom.length)
 
+    let popped = arrSplicedFrom.pop()
+    let result = arrToSplice.toSpliced(rand,0,popped)
+    return CombineArrays(result,arrSplicedFrom)
 
+}
+
+function TogglePreviewQuestion(fetchObject,i=0){
+    let questionArr
+    let questionLiteral
+    let optionLiteral
+    let labelList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    let a = 0
+    if(fetchObject[i].PromptHasMedia){
+        questionArr = fetchObject[i].TextDescription.split("||")
+
+        let prompt = LiteralBuilder(questionArr[1],"preview-prompt",["prompt-component"])
+        let media = LiteralBuilder(questionArr[0],"preview-prompt-media",["prompt-component"])
+
+        questionLiteral = `
+        <div class="" id="questionTemplate">
+            ${media}
+            ${prompt}
+                
+        </div>
+    `
+    }
+    else{
+        let prompt = LiteralBuilder(fetchObject[i].TextDescription,"preview-prompt",["prompt-component"])
+
+        questionLiteral = `
+         ${prompt}
+    `
+    }
+    
+    switch(fetchObject[i].QuestionType){
+
+        //COME BACK TO REDUCE THE UNNECESSARY CODE IN THIS SWITCH CASE, IT CAN BE SMALLER
+        case "mcq":
+            let answer = fetchObject[i].Answer
+            let optionList = fetchObject[i].Option.split("||")
+            
+            let answerBlock = `
+                <div class="option-component" id="">
+                    <span id="option-value">${answer}</span>
+                </div>
+            `
+            let rand = Math.floor(Math.random()*optionList.length)
+            let processedList = []
+            optionList.forEach((option,i) => {
+                if(rand == i){
+                    processedList.push(answerBlock)
+                }
+                let element = `
+                <div class="option-component" id="">
+                    <span id="option-value">${option}</span>
+                </div>`
+                processedList.push(element)
+            })
+
+            optionLiteral = `
+                <div class="" id="option-template">
+                    ${processedList.map(option => option).join(" ")}
+                   
+                </div>
+            `
+            
+            break;
+
+        case "mrq":
+            
+            let optionArr = fetchObject[i].Option.split("||")
+            let answerArr = fetchObject[i].Answer.split("||")
+            let combinedArr = CombineArrays(optionArr,answerArr)
+            
+            optionLiteral = `
+                <div class="" id="option-template">
+                    ${combinedArr.map(option => LiteralBuilder(option,"",["option-component"])).join(" ")}
+                </div>
+            `
+            break;
+
+        case "free-text":
+
+            optionLiteral = `
+            <div class="" id="option-template">
+            <input type="text" class="editor-input" id="preview-free-text" placeholder="Input answer here" focus value="${fetchObject[i].Answer}"></input>
+            </div>
+        `
+        
+                // ${LiteralBuilder(fetchObject[i].Answer,"",["option-component"])}
+            break;
+        default:
+            alert("switch condition problem")
+    }
+
+        const previewBody = `
+            <main class="" id="preview-content">
+                <div id="preview-question-number">Question ${i+1} of ${fetchObject.length}</div>
+                ${questionLiteral}
+                ${optionLiteral}
+            </main>
+        `
+    let body = document.getElementById("preview-content-container")
+    body.innerHTML = ''
+    body.innerHTML = previewBody
+
+    let options = document.querySelectorAll(".option-component")
+    options.forEach(option => {
+        option.insertAdjacentHTML("afterbegin",`<span id="option-label">${labelList[a++]}.</span>`)
+    })
+}
 
