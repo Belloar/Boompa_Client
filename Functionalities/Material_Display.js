@@ -1,8 +1,5 @@
 document.addEventListener(onload,Main())
 
-
-
-
 function Main(){
     GetMaterials(sessionStorage.getItem("category"))
 }
@@ -47,13 +44,34 @@ function DisplayArticles(payload){
     });
 }
 
-
-
-
 function Redirect(categoryName,sourceId){
     localStorage.setItem("categoryName",categoryName)
     localStorage.setItem("sourceId",sourceId)
     
     // window.location.assign("/pages/Article_Consumption.html")
     window.location.assign("/pages/TinyArticleConsumption.html")
+}
+
+
+async function AddBookmarks(articleId){
+    let request = await fetch(`ADD THE ENDPOINT URL LATER/`,{
+                Method: "POST",
+                headers:{
+                    "Authorization":`Bearer ${sessionStorage.getItem("token")}`,
+                    "ArticleId": `${articleId}`
+                }
+        })
+        if(!request.ok){
+            alert("Error:"+request.statusText)
+            return;
+        }
+    let response = await request.json();
+    if(response.statusCode == 200){
+        state.Learner.Bookmarks.push(`${articleId}`)
+    }
+    else{
+        alert("Error:"+response.statusMessages)
+        console.log(response.statusMessages)
+    }
+       
 }

@@ -7,55 +7,91 @@
 
     </head>
     <body>
-        <div class="wrapper">
-            <!-- <i class="fa-solid fa-coins"></i>
-             <i class="fa-regular fa-gem"></i>
-            <i class="fa-solid fa-ticket"></i> -->
-            <nav class="base-nav">
+        <div class="" id="content-container">
+            <header id="main-header">
+                <h1>Dashboard</h1>
+                <nav class="base-nav">
                     <a href="" class="currency fa-solid fa-ticket base-nav-link" ><span id="tickets"> </span></a>
                     <a href="" class="currency fa-solid fa-coins base-nav-link"><span id="coins">  </span></a>
                     <a href="" class="currency fa-regular fa-gem base-nav-link" id="diamonds"> </a>
-                    <!-- <a href="" class="currency base-nav-link"id=""></a>
-                    <a href="" class="currency base-nav-link"id=""></a>
-                    <a href="" class="currency base-nav-link"id=""></a> -->
-            </nav>
+                </nav>
 
-            <div class="item" id="welcome-div">
-                <img src="" alt="profile picture" id="profile-pic">
-                <p id="welcome-text">Welcome Back!! <span id="username">User</span></p>
-            </div>
+                <article class="" id="user-details">
+                    <div class="image-wrapper">
+                        <img src="" alt="profile picture" id="profile-pic">
+                    </div>
+                    <p id="username-display"><span class="username" id="">User</span></p>
+                    <div class="hidden-content" id="">
+                        <p class="" id="Level-display"></p>
+                        <p class="" id="exp-display"></p>
+                    </div>
+                </article>
+            </header>
 
-            <div class="item action big-block " id="learn">
-                <img class="display-image" src="/Media/learning and smiling.png" alt="" srcset="">
-                <h2 class="title" id="">Start Learning</h2>
-                <p>Dive into exciting subjects and expand your knowledge with interactive sessions</p>
-                <button type="button" onclick="window.location.href ='/Pages/Categories.html'" id="categories-pointer">Explore Categories</button>
+            <main class="wrapper">
+                <section class="main-component" id="welcome-section">
+                    <header class="" id="">Welcome Back <span class="username" id=""></span></header>
+                    
+                </section>
 
-            </div>
+                <div class="" id="fresh-content">
+                    <section class="main-component" id="daily-topic">
+                        <header class="" id="">
+                            <h3>Topic of the day</h3>
+                        </header>
+                        <article class="" id="fun-fact-card">fun fact card</article>
+                    </section>
 
-            <!-- <div class="item action big-block " id="play-game">
-                <h2 class="title fas fa-gamepad" id=""><br>Play Games</h2>
-                <p>Have fun while learning with our collection of educational games and challenges </p>
-                <button type="button" id="categories-pointer">Start Playing</button>
-            </div> -->
+                    <section class="main-component" id="new-content-display">
+                        <header class="" id="">
+                            <h3>New this Week</h3>
+                        </header>
+                    </section>
+                    
+                    <section class="main-component" id="surprise-func">
+                        <header class="" id="">
+                            <h3>Discover</h3>
+                        </header>
+                    </section>
+                </div>
 
-            <div class="item big-block" id="contest-block">
-                <img class="display-image" src="/Media/children in a contest.png" alt="" >
-                <h2 class="title" id="">Contest</h2>
-                <p>Compete with other learners in challenges </p>
-                <button type="button" id="contest-pointer">Enter a battle</button>
-            </div>
-            <!-- <div class="item big-block" id="learner-history">
-                <h2 class="title" id="">Learning Progress</h2>
-                how the user's usage history stats will be displayed will be figured out later
-                <button type="button" id="categories-pointer">View All Categories</button>
-            </div> -->
-            <!-- <div class="item learner-stats" id="hours-spent">Hours Spent</div>
-            <div class="item learner-stats" id="streak">Streak</div>
-            <div class="item learner-stats" id="lessons-completed">Number of Lessons Completed</div>
-            <div class="item learner-stats" id="average score">Average Score</div>
-            <div class="item learner-stats" id=""></div> -->
+                <section class="main-component" id="favourites-section">
+                    <header class="" id="">
+                        <h3>Favourites</h3>
+                        <p class="" id="">Jump Back into your favourite categories</p> 
+                        <!-- DISPLAYS SOME CATEGORIES THAT THE USER FREQUENTS -->
+                    </header>
+
+                </section>
+                    
+                <div class="" id="user-preferences">
+                    <section class="main-component" id="continue-reading-section">
+                        <header class="" id=""></header>
+                        <h3>Continue Reading</h3>
+                        <!-- DISPLAYS THE ARTICLE THAT THE USER READ LAST AND PROBABLY DIDN'T FINISH  -->
+                    </section>
+
+                    <section class="main-component" id="similar-articles">
+                        <h3>Similar Articles</h3>
+                        <!-- RECOMMENDED SIMILAR ARTICLES TO WHAT IS IN CONTINUE READING WILL BE DISPLAYED HERE -->
+                        <header class="" id=""></header>
+                    </section>
+                </div>
+
+                <section class="main-component" id="bookmarks">
+                    <header class="bookmark-component" id="">
+                        <h3>Bookmarks</h3>
+                    </header>
+                    <!-- ARTICLES THAT HAVE BEEN BOOKMARKED BY THE USER WILL BE DISPLAY -->
+                </section>
+               
+                
+            </main>
         </div>
+        
+            <!-- <i class="fa-solid fa-coins"></i>
+             <i class="fa-regular fa-gem"></i>
+            <i class="fa-solid fa-ticket"></i> -->
         <script src="/Functionalities/Dashboard.js"></script>
     </body>
 
